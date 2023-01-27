@@ -19,7 +19,7 @@ export const appRouter = router({
                 return null;
             }
             const repo = new UserRepository();
-            const user = await repo.findOne({ email: input.text });
+            const user = await repo.findUnique({ email: input.text });
             // console.log(user);
             return user.match({
                 some: (user) => user,
