@@ -8,7 +8,7 @@ export const resolveUseCase = async <T, Response>(
     const result = await usecase.execute(input);
     return result.match({
         err: (err) => {
-            throw new TRPCError({ message: "uepa", code: "BAD_REQUEST" });
+            throw new TRPCError({ ...err });
         },
         ok: (val) => val,
     });

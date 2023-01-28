@@ -8,13 +8,18 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "nuxt": "^3.0.0"
   },
   "dependencies": {
+    "@formkit/nuxt": "1.0.0-beta.14",
+    "@formkit/themes": "1.0.0-beta.14",
+    "@formkit/vue": "1.0.0-beta.14",
     "@prisma/client": "^4.9.0",
     "@sniptt/monads": "^0.5.10",
     "@trpc/client": "^10.9.0",
     "@trpc/server": "^10.9.0",
+    "bcrypt": "^5.1.0",
     "prisma": "^4.9.0",
     "trpc-nuxt": "^0.5.0",
     "vue": "^3.2.45",

@@ -4,4 +4,5 @@ export default defineNuxtConfig({
         transpile: ["trpc-nuxt"],
     },
     srcDir: "src/",
+    modules: ["@formkit/nuxt"],
 });

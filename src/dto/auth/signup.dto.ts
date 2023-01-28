@@ -1,11 +1,21 @@
 import z from "zod";
-// import type { CreateUser } from "@/@types/user/create-user";
 
-export const SignUpDto = z.object({
-    name: z.string().min(2),
-    email: z.string().email(),
-    password: z.string().min(6),
-    password2: z.string().min(6),
-});
+export const signUpDto = z
+    .object({
+        name: z.string().min(3),
+        email: z.string().email(),
+        password: z.string().min(3),
+        password2: z.string().min(3),
+    })
+    .superRefine(({ password, password2 }, ctx) => {
+        if (password !== password2) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Passwords do not match",
+                fatal: true,
+                path: ["password2"],
+            });
+        }
+    });
 
-export type ISignUp = z.infer<typeof SignUpDto>;
+export type ISignUp = z.infer<typeof signUpDto>;

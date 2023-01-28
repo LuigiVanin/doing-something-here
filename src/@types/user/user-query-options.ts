@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-interface UserQueryOptions {
+export interface UserQueryOptions {
     orderBy?:
         | Prisma.Enumerable<Prisma.UserOrderByWithRelationInput>
         | undefined;

@@ -7,13 +7,13 @@ import prisma from "../db";
 export class UserRepository implements Repository<User> {
     constructor() {}
 
-    async create(data: User): Promise<Option<User>> {
-        await prisma.user.create({
+    async create(data: Omit<User, "id">): Promise<Option<User>> {
+        const user = await prisma.user.create({
             data: {
                 ...data,
             },
         });
-        return data ? Some(data) : None;
+        return user ? Some(user) : None;
     }
 
     async findUnique(
@@ -28,10 +28,8 @@ export class UserRepository implements Repository<User> {
     }
 
     async find(
-        //
         value: Partial<User>,
         options?: UserQueryOptions
-        //
     ): Promise<Option<Array<User>>> {
         const result = await prisma.user.findMany({
             where: {

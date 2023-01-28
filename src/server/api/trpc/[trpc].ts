@@ -6,6 +6,7 @@ import { z } from "zod";
 import prisma from "../../../db";
 import { User } from "@prisma/client";
 import { None, Option, Some } from "@sniptt/monads";
+import { authRouter } from "../../trpc/router/auth";
 
 export const appRouter = router({
     hello: publicProcedure
@@ -27,6 +28,7 @@ export const appRouter = router({
                 none: () => null,
             });
         }),
+    auth: authRouter,
 });
 
 export type AppRouter = typeof appRouter;

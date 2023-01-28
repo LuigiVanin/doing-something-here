@@ -1,9 +1,4 @@
 <template>
-    <div>{{ data }}</div>
+    <NuxtPage />
 </template>
-<script lang="ts" setup>
-const { $client } = useNuxtApp();
-const { data } = await $client.hello.useQuery({ text: "luisfvanin@gmail.com" });
-
-console.log(data.value);
-</script>
+<script lang="ts" setup></script>
