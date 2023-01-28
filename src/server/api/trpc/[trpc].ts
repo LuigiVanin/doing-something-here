@@ -1,3 +1,4 @@
+import { SignUpUseCase } from "./../../../useCases/auth/signup-usecase";
 import { UserRepository } from "./../../../repositories/user-respositories";
 import { createNuxtApiHandler } from "trpc-nuxt";
 import { publicProcedure, router } from "../../../server/trpc/trpc";
