@@ -1,9 +1,10 @@
 import { TokenRepository } from "./../repositories/token-repository";
 import { v4 as uuid4 } from "uuid";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { Err, Ok, Result } from "@sniptt/monads/build";
 import { RefreshToken, User } from "@prisma/client";
 import { SignInResponse } from "../@types/user/signin";
+import _ from "lodash";
 
 interface ServiceError {
     message: string;
@@ -56,7 +57,7 @@ export class AuthService {
                     createdAt: rt.createdAt,
                     refreshToken: rt.token,
                     jwt: jwtToken,
-                    user,
+                    user: _.omit(user, ["password"]),
                 }),
             err: (err) => Err(err),
         });

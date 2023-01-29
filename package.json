@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/lodash": "^4.14.191",
     "@types/uuid": "^9.0.0",
     "nuxt": "^3.0.0"
   },
@@ -23,6 +24,7 @@
     "@types/jsonwebtoken": "^9.0.1",
     "bcrypt": "^5.1.0",
     "jsonwebtoken": "^9.0.0",
+    "lodash": "^4.17.21",
     "prisma": "^4.9.0",
     "trpc-nuxt": "^0.5.0",
     "uuid": "^9.0.0",

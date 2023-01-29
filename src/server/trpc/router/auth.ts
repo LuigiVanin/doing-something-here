@@ -7,7 +7,7 @@ export const authRouter = router({
     signup: publicProcedure.input(signUpDto).mutation(async ({ input }) => {
         return resolveUseCase(new SignUpUseCase(), input);
     }),
-    signin: publicProcedure.input(signInDto).subscription(async ({ input }) => {
+    signin: publicProcedure.input(signInDto).mutation(async ({ input }) => {
         return resolveUseCase(new SignInUseCase(), input);
     }),
 });

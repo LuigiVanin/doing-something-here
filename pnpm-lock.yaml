@@ -10,9 +10,11 @@ specifiers:
   '@trpc/server': ^10.9.0
   '@types/bcrypt': ^5.0.0
   '@types/jsonwebtoken': ^9.0.1
+  '@types/lodash': ^4.14.191
   '@types/uuid': ^9.0.0
   bcrypt: ^5.1.0
   jsonwebtoken: ^9.0.0
+  lodash: ^4.17.21
   nuxt: ^3.0.0
   prisma: ^4.9.0
   trpc-nuxt: ^0.5.0
@@ -31,6 +33,7 @@ dependencies:
   '@types/jsonwebtoken': 9.0.1
   bcrypt: 5.1.0
   jsonwebtoken: 9.0.0
+  lodash: 4.17.21
   prisma: 4.9.0
   trpc-nuxt: 0.5.0_2zpqbmooshoeqfe2ml35ze43ai
   uuid: 9.0.0
@@ -39,6 +42,7 @@ dependencies:
 
 devDependencies:
   '@types/bcrypt': 5.0.0
+  '@types/lodash': 4.14.191
   '@types/uuid': 9.0.0
   nuxt: 3.0.0
 
@@ -958,6 +962,10 @@ packages:
     dependencies:
       '@types/node': 18.11.18
     dev: false
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+    dev: true
 
   /@types/node/18.11.18:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}

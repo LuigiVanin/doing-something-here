@@ -5,5 +5,5 @@ export interface SignInResponse {
     refreshToken: string;
     createdAt: Date;
 
-    user: User;
+    user: Omit<User, "password">;
 }
