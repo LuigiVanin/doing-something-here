@@ -19,12 +19,17 @@ export class UserRepository implements Repository<User> {
     async findUnique(
         value: { email: string } | { id: string }
     ): Promise<Option<User>> {
-        const result = await prisma.user.findFirst({
-            where: {
-                ...value,
-            },
-        });
-        return result ? Some(result) : None;
+        try {
+            const result = await prisma.user.findFirst({
+                where: {
+                    ...value,
+                },
+            });
+            return result ? Some(result) : None;
+        } catch (err) {
+            console.error(err);
+            return None;
+        }
     }
 
     async find(
