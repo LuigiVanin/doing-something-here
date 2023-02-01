@@ -13,6 +13,7 @@ specifiers:
   '@types/lodash': ^4.14.191
   '@types/uuid': ^9.0.0
   bcrypt: ^5.1.0
+  cookie-universal-nuxt: ^2.2.2
   jsonwebtoken: ^9.0.0
   lodash: ^4.17.21
   nuxt: ^3.0.0
@@ -32,6 +33,7 @@ dependencies:
   '@trpc/server': 10.9.0
   '@types/jsonwebtoken': 9.0.1
   bcrypt: 5.1.0
+  cookie-universal-nuxt: 2.2.2
   jsonwebtoken: 9.0.0
   lodash: 4.17.21
   prisma: 4.9.0
@@ -953,6 +955,10 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
+  /@types/cookie/0.3.3:
+    resolution: {integrity: sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==}
+    dev: false
+
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: true
@@ -1619,6 +1625,25 @@ packages:
 
   /cookie-es/0.5.0:
     resolution: {integrity: sha512-RyZrFi6PNpBFbIaQjXDlFIhFVqV42QeKSZX1yQIl6ihImq6vcHNGMtqQ/QzY3RMPuYSkvsRwtnt5M9NeYxKt0g==}
+
+  /cookie-universal-nuxt/2.2.2:
+    resolution: {integrity: sha512-Pr6P5UCzl1EAvPh7z7jFkknBw0KTdykm6gFmPHrH4LV9s3flVmAH0ZP/ZqUXcp6b0SKZfizkn+XR1cO+QinGhQ==}
+    dependencies:
+      '@types/cookie': 0.3.3
+      cookie-universal: 2.2.2
+    dev: false
+
+  /cookie-universal/2.2.2:
+    resolution: {integrity: sha512-nUXF6HH2YKbn8vGcdSzWJhjRkDHbnbekuVu2nsRu00zYsX7o/H3xGJRlPVoM4wX/8cpJYpyi9nDt+boER0Wjug==}
+    dependencies:
+      '@types/cookie': 0.3.3
+      cookie: 0.4.2
+    dev: false
+
+  /cookie/0.4.2:
+    resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
+    engines: {node: '>= 0.6'}
+    dev: false
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
