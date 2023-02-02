@@ -21,6 +21,7 @@
 </template>
 <script lang="ts" setup>
 const { $client } = useNuxtApp();
+const router = useRouter();
 
 interface SignInForm {
     email: string;
@@ -28,12 +29,24 @@ interface SignInForm {
 }
 
 const { mutate: signIn } = $client.auth.signin;
+const { setAuth, auth } = useAuth();
 
 const submitEvent = async (data: SignInForm) => {
     try {
         const result = await signIn(data);
 
+        setAuth({
+            createdAt: new Date(result.createdAt),
+            jwt: result.jwt,
+            refreshToken: result.refreshToken,
+            user: result.user,
+        });
+
         console.log(result);
+        console.log(auth.value);
+        localStorage.setItem("access-token", auth.value?.jwt || "");
+        localStorage.setItem("refresh-token", auth.value?.refreshToken || "");
+        router.push("/app/user");
     } catch (err) {
         console.log(err);
     }

@@ -13,7 +13,7 @@ export const authRouter = router({
     signin: publicProcedure.input(signInDto).mutation(async ({ input }) => {
         return resolveUseCase(new SignInUseCase(), input);
     }),
-    getToken: publicProcedure
+    refresh: publicProcedure
         .input(
             z.object({
                 refreshToken: z.string(),
@@ -21,12 +21,16 @@ export const authRouter = router({
             })
         )
         .mutation(async ({ input }) => {
-            // throw new TRPCError({
-            //     code: "UNAUTHORIZED",
-            //     message: "Unauthorized",
-            // });
             const service = new AuthService();
-            service.authorizeUser(input.refreshToken, input.jwtToken);
-            return { token: "123" };
+            const data = await service.authorizeUser(
+                input.refreshToken,
+                input.jwtToken
+            );
+            if (data.isErr())
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Unauthorized",
+                });
+            return { ...data.unwrap() };
         }),
 });

@@ -7,37 +7,20 @@ import prisma from "../../../db";
 import { User } from "@prisma/client";
 import { None, Option, Some } from "@sniptt/monads";
 import { authRouter } from "../../trpc/router/auth";
+import { galleryRouter } from "../../trpc/router/gallery";
 
 export const appRouter = router({
-    hello: publicProcedure
-        .input(
-            z.object({
-                text: z.string().nullish(),
-            })
-        )
-        .query(async ({ input }): Promise<User | null> => {
-            console.log("alow");
-            if (!input?.text) {
-                return null;
-            }
-            const repo = new UserRepository();
-            const user = await repo.findUnique({ email: input.text });
-            // console.log(user);
-            return user.match({
-                some: (user) => user,
-                none: () => null,
-            });
-        }),
     auth: authRouter,
+    gallery: galleryRouter,
 });
 
 export type AppRouter = typeof appRouter;
 
 export default createNuxtApiHandler({
     router: appRouter,
-    createContext: () => {
-        return {
-            // Add context here
-        };
-    },
+    // createContext: (event) => {
+    //     return {
+    //         // Add context here
+    //     };
+    // },
 });

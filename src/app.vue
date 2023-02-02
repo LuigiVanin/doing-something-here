@@ -1,10 +1,10 @@
 <template>
-    <div v-if="isLoading"><Spinner /></div>
-    <NuxtPage v-else />
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
 </template>
 <script lang="ts" setup>
-import Spinner from "./components/Spinner.vue";
-import { useAuth } from "./hooks/useAuth";
+import { useAuth } from "./composables/useAuth";
 
 const { isLoading, getAuth } = useAuth();
 onMounted(async () => {
