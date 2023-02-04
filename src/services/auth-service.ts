@@ -1,47 +1,23 @@
 import { TokenRepository } from "./../repositories/token-repository";
 import { v4 as uuid4 } from "uuid";
-import jwt from "jsonwebtoken";
 import { Err, Ok, Result, Some, Option, None } from "@sniptt/monads/build";
 import { RefreshToken, User } from "@prisma/client";
-import { SignInResponse } from "../@types/user/signin";
+import { AuthData } from "../@types/user/signin";
 import _ from "lodash";
-import { z } from "zod";
+import { JwtService } from "./jwt-service";
 
 interface ServiceError {
     message: string;
     cause: string;
 }
 
-interface JWTPayload {
-    email: string;
-    id: string;
-}
-
 export class AuthService {
     private tokenRepository: TokenRepository;
+    private jwtService: JwtService;
 
     constructor() {
         this.tokenRepository = new TokenRepository();
-    }
-
-    private signJwt(data: JWTPayload) {
-        return jwt.sign(data, "super secret key", { expiresIn: "6h" });
-    }
-
-    private decodeJwt(jwtToken: string): Option<JWTPayload> {
-        try {
-            const value = jwt.verify(jwtToken, "super secret key", {});
-            const result = z
-                .object({
-                    email: z.string().email(),
-                    id: z.string(),
-                })
-                .parse(value);
-
-            return Some(result);
-        } catch (err) {
-            return None;
-        }
+        this.jwtService = new JwtService();
     }
 
     private async getRefreshToken(
@@ -79,7 +55,7 @@ export class AuthService {
     async authorizeUser(
         refreshToken: string,
         jwtToken: string
-    ): Promise<Result<SignInResponse, ServiceError>> {
+    ): Promise<Result<AuthData, ServiceError>> {
         const rtOpt = await this.getRefreshToken({ token: refreshToken });
 
         if (rtOpt.isNone()) {
@@ -97,7 +73,7 @@ export class AuthService {
             });
         }
 
-        return this.decodeJwt(jwtToken).match({
+        return this.jwtService.decodeJwt(jwtToken).match({
             some: (val) => {
                 if (val.email !== rt.user.email || val.id !== rt.user.id) {
                     return Err({
@@ -105,7 +81,7 @@ export class AuthService {
                         cause: "invalid-jwt",
                     });
                 }
-                const jwt = this.signJwt({
+                const jwt = this.jwtService.signJwt({
                     email: rt.user.email,
                     id: rt.user.id,
                 });
@@ -120,13 +96,13 @@ export class AuthService {
         });
     }
 
-    async signUser(user: User): Promise<Result<SignInResponse, ServiceError>> {
+    async signUser(user: User): Promise<Result<AuthData, ServiceError>> {
         const { email, id } = user;
-        const jwtToken = this.signJwt({ email, id });
+        const jwtToken = this.jwtService.signJwt({ email, id });
 
         const tfResult = await this.createRefreshToken(id);
 
-        return tfResult.match<Result<SignInResponse, ServiceError>>({
+        return tfResult.match<Result<AuthData, ServiceError>>({
             ok: (rt) =>
                 Ok({
                     createdAt: rt.createdAt,

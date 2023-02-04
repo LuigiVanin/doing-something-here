@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 
-export interface SignInResponse {
+export interface AuthData {
     jwt: string;
     refreshToken: string;
     createdAt: Date;

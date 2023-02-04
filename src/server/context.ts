@@ -1,14 +1,16 @@
 import { inferAsyncReturnType } from "@trpc/server";
 import { CreateContextFn } from "trpc-nuxt";
 
-export const createContext = (event: any) => {
-    // Create your context based on the request object
-    // Will be available as `ctx` in all your resolvers
-    // This is just an example of something you might want to do in your ctx fn
-    console.log("ocorrendo dentro de um contexto");
-    console.log(event);
+type H3Event = Parameters<CreateContextFn<any>>[0];
+
+export const createContext = (event: H3Event) => {
+    const { req } = event.node;
+    const { accesstoken: accessToken, refreshtoken: refreshToken } =
+        req.headers;
+
     return {
-        user: "sapato mágico",
+        accessToken,
+        refreshToken,
     };
 };
 

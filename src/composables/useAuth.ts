@@ -1,7 +1,5 @@
-import { SignInResponse as AuthData } from "../@types/user/signin";
-function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { AuthData } from "../@types/user/signin";
+import { tokenStorage } from "../helpers/localStorage-proxy";
 
 export const useAuth = () => {
     const { $client } = useNuxtApp();
@@ -12,8 +10,7 @@ export const useAuth = () => {
     const getAuth = async () => {
         isLoading.value = true;
         try {
-            const accessToken = localStorage.getItem("access-token");
-            const refreshToken = localStorage.getItem("refresh-token");
+            const { accessToken, refreshToken } = tokenStorage.getItem();
 
             if (!accessToken || !refreshToken) {
                 router.push("/");
@@ -23,8 +20,10 @@ export const useAuth = () => {
                 jwtToken: accessToken,
                 refreshToken,
             });
-            localStorage.setItem("access-token", data.jwt);
-            localStorage.setItem("refresh-token", data.refreshToken);
+            tokenStorage.setItem({
+                accessToken: data.jwt,
+                refreshToken: data.refreshToken,
+            });
 
             auth.value = {
                 createdAt: new Date(data.createdAt),

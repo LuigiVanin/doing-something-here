@@ -1,6 +1,6 @@
 <template>
     <div>Olá {{ auth?.user.email }}</div>
-    <button>get photo</button>
+    <button @click="getPhotos()">get photo</button>
 </template>
 <script lang="ts" setup>
 definePageMeta({
@@ -9,6 +9,10 @@ definePageMeta({
 });
 
 const { $client } = useNuxtApp();
-
 const { auth } = useAuth();
+
+const getPhotos = async () => {
+    const result = await $client.gallery.gallery.query({});
+    console.log(result);
+};
 </script>

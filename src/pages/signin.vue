@@ -46,7 +46,7 @@ const submitEvent = async (data: SignInForm) => {
         console.log(auth.value);
         localStorage.setItem("access-token", auth.value?.jwt || "");
         localStorage.setItem("refresh-token", auth.value?.refreshToken || "");
-        router.push("/app/user");
+        router.push("/app");
     } catch (err) {
         console.log(err);
     }
