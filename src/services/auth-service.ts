@@ -2,7 +2,7 @@ import { TokenRepository } from "./../repositories/token-repository";
 import { v4 as uuid4 } from "uuid";
 import { Err, Ok, Result, Some, Option, None } from "@sniptt/monads/build";
 import { RefreshToken, User } from "@prisma/client";
-import { AuthData } from "../@types/user/signin";
+import { SignInResponse } from "../@types/user/signin";
 import _ from "lodash";
 import { JwtService } from "./jwt-service";
 
@@ -55,7 +55,7 @@ export class AuthService {
     async authorizeUser(
         refreshToken: string,
         jwtToken: string
-    ): Promise<Result<AuthData, ServiceError>> {
+    ): Promise<Result<SignInResponse, ServiceError>> {
         const rtOpt = await this.getRefreshToken({ token: refreshToken });
 
         if (rtOpt.isNone()) {
