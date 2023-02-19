@@ -24,10 +24,10 @@ export class S3ClientSingleton {
             Bucket: process.env.AWS_BUCKET_NAME,
             Key: `${fileName}.${fileExtension}`,
         });
-        const x = await getSignedUrl(this._client, command, {
+        const url = await getSignedUrl(this._client, command, {
             expiresIn: 3600,
         });
 
-        return x;
+        return url;
     }
 }

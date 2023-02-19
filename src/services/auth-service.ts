@@ -5,11 +5,7 @@ import { RefreshToken, User } from "@prisma/client";
 import { SignInResponse } from "../@types/user/signin";
 import _ from "lodash";
 import { JwtService } from "./jwt-service";
-
-interface ServiceError {
-    message: string;
-    cause: string;
-}
+import { ServiceError } from "../@types/error";
 
 export class AuthService {
     private tokenRepository: TokenRepository;
@@ -96,13 +92,13 @@ export class AuthService {
         });
     }
 
-    async signUser(user: User): Promise<Result<AuthData, ServiceError>> {
+    async signUser(user: User): Promise<Result<SignInResponse, ServiceError>> {
         const { email, id } = user;
         const jwtToken = this.jwtService.signJwt({ email, id });
 
         const tfResult = await this.createRefreshToken(id);
 
-        return tfResult.match<Result<AuthData, ServiceError>>({
+        return tfResult.match<Result<SignInResponse, ServiceError>>({
             ok: (rt) =>
                 Ok({
                     createdAt: rt.createdAt,
