@@ -19,10 +19,7 @@ export class SignInUseCase implements UseCase<ISignIn, SignInResponse> {
         this.authService = new AuthService();
     }
 
-    private async passwordMatch(
-        income: string,
-        current: string
-    ): Promise<boolean> {
+    private async passwordMatch(income: string, current: string) {
         return await bcrypt.compare(income, current);
     }
 

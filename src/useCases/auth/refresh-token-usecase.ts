@@ -1,25 +1,27 @@
 import { JwtPayload } from "./../../@types/token/jwt";
-import { AuthData } from "./../../@types/user/signin";
+import { SignInResponse } from "./../../@types/user/signin";
 import { UnauthorizedError } from "./../../errors/unauthorized-error";
 import { Err, Ok, Result } from "@sniptt/monads/build";
 import { UseCase } from "~~/src/@types/usecase";
 import { AuthService } from "~~/src/services/auth-service";
 import { WebError } from "~~/src/errors/base";
 
-export class RefreshTokenUseCase implements UseCase<JwtPayload, AuthData> {
+export class RefreshTokenUseCase
+    implements UseCase<JwtPayload, SignInResponse>
+{
     private authService: AuthService;
 
     constructor() {
         this.authService = new AuthService();
     }
 
-    async execute(input: any): Promise<Result<AuthData, WebError>> {
+    async execute(input: any): Promise<Result<SignInResponse, WebError>> {
         const data = await this.authService.authorizeUser(
             input.refreshToken,
             input.jwtToken
         );
 
-        return data.match<Result<AuthData, WebError>>({
+        return data.match<Result<SignInResponse, WebError>>({
             ok: (data) => {
                 return Ok(data);
             },
