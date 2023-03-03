@@ -43,5 +43,5 @@ model Post {
   user      User     @relation(fields: [userId], references: [id])
   parentId  String?
   parent    Post?    @relation("Comments", fields: [parentId], references: [id])
-  Post      Post[]   @relation("Comments")
+  comments  Post[]   @relation("Comments")
 }
