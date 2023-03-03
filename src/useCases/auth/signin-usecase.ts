@@ -30,7 +30,6 @@ export class SignInUseCase implements UseCase<ISignIn, SignInResponse> {
         const userOpt = await this.userRepository.findUnique({
             email,
         });
-        console.log(process.env);
 
         if (userOpt.isNone())
             return Err(

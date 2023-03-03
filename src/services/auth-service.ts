@@ -2,14 +2,10 @@ import { TokenRepository } from "./../repositories/token-repository";
 import { v4 as uuid4 } from "uuid";
 import { Err, Ok, Result, Some, Option, None } from "@sniptt/monads/build";
 import { RefreshToken, User } from "@prisma/client";
-import { AuthData } from "../@types/user/signin";
+import { SignInResponse } from "../@types/user/signin";
 import _ from "lodash";
 import { JwtService } from "./jwt-service";
-
-interface ServiceError {
-    message: string;
-    cause: string;
-}
+import { ServiceError } from "../@types/error";
 
 export class AuthService {
     private tokenRepository: TokenRepository;
@@ -55,7 +51,7 @@ export class AuthService {
     async authorizeUser(
         refreshToken: string,
         jwtToken: string
-    ): Promise<Result<AuthData, ServiceError>> {
+    ): Promise<Result<SignInResponse, ServiceError>> {
         const rtOpt = await this.getRefreshToken({ token: refreshToken });
 
         if (rtOpt.isNone()) {
@@ -96,13 +92,13 @@ export class AuthService {
         });
     }
 
-    async signUser(user: User): Promise<Result<AuthData, ServiceError>> {
+    async signUser(user: User): Promise<Result<SignInResponse, ServiceError>> {
         const { email, id } = user;
         const jwtToken = this.jwtService.signJwt({ email, id });
 
         const tfResult = await this.createRefreshToken(id);
 
-        return tfResult.match<Result<AuthData, ServiceError>>({
+        return tfResult.match<Result<SignInResponse, ServiceError>>({
             ok: (rt) =>
                 Ok({
                     createdAt: rt.createdAt,

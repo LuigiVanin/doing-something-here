@@ -1,10 +1,10 @@
-import { AuthData } from "../@types/user/signin";
+import { SignInResponse } from "../@types/user/signin";
 import { tokenStorage } from "../helpers/localStorage-proxy";
 
 export const useAuth = () => {
     const { $client } = useNuxtApp();
     const router = useRouter();
-    const auth = useState<AuthData | undefined>("auth", () => undefined);
+    const auth = useState<SignInResponse | undefined>("auth", () => undefined);
     const isLoading = useState<boolean>("userLoading", () => false);
 
     const getAuth = async () => {
@@ -38,7 +38,7 @@ export const useAuth = () => {
         }
     };
 
-    const setAuth = (data: AuthData) => {
+    const setAuth = (data: SignInResponse) => {
         auth.value = data;
     };
 
