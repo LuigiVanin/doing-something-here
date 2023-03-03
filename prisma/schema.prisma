@@ -16,7 +16,7 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
-  updtedAt  DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   refreshToken RefreshToken[]
   Post         Post[]
