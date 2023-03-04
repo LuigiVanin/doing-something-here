@@ -35,7 +35,10 @@ export class ListPostUseCase implements UseCase<any, any> {
         parentId: string | null;
     }) {
         const query = this.createQuery(input);
-        const posts = await this.postRespository.find(query);
-        return Ok(posts);
+        const postsOpt = await this.postRespository.find(query);
+        return postsOpt.match({
+            some: (posts) => Ok(posts),
+            none: () => Ok([]),
+        });
     }
 }

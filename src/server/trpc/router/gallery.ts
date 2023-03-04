@@ -3,6 +3,7 @@ import { CreatePostUsecase } from "./../../../useCases/post/create-usecase";
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 import { resolveUseCase } from "~~/src/services/resolve";
+import { ListPostUseCase } from "~~/src/useCases/post/list-usecase";
 
 export const galleryRouter = router({
     gallery: protectedProcedure
@@ -18,4 +19,17 @@ export const galleryRouter = router({
             userId: ctx.user.id,
         })
     ),
+    list: protectedProcedure
+        .input(
+            z.object({
+                parentId: z.string().nullish().optional().default(null),
+                userTargetId: z.string().nullish().optional().default(null),
+            })
+        )
+        .query(({ input, ctx }) =>
+            resolveUseCase(new ListPostUseCase(), {
+                ...input,
+                userId: ctx.user.id,
+            })
+        ),
 });

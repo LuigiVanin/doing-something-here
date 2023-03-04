@@ -36,14 +36,12 @@ const submitEvent = async (data: SignInForm) => {
         const result = await signIn(data);
 
         setAuth({
-            createdAt: new Date(result.createdAt),
+            createdAt: result.createdAt,
             jwt: result.jwt,
             refreshToken: result.refreshToken,
             user: result.user,
         });
 
-        console.log(result);
-        console.log(auth.value);
         localStorage.setItem("access-token", auth.value?.jwt || "");
         localStorage.setItem("refresh-token", auth.value?.refreshToken || "");
         router.push("/app");
