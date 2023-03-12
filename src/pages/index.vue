@@ -3,7 +3,14 @@
         <NuxtLink to="/auth/signin">Faça Login</NuxtLink>
         <NuxtLink to="/auth/signup">Faça Signup</NuxtLink>
         <NuxtLink to="/app">Acess App</NuxtLink>
-        <NewButton class="blue-button" text="alow alow" />
+        <NewButton
+            type="outlined"
+            hover-effect="strong-effect"
+            size="lg"
+            ripple-effect
+        >
+            My text
+        </NewButton>
     </div>
 </template>
 <style lang="scss">
@@ -15,8 +22,8 @@
     height: 100vh;
     gap: 10px;
 
-    button {
+    /* button {
         background: blue;
-    }
+    } */
 }
 </style>

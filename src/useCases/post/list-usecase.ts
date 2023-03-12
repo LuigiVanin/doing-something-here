@@ -1,21 +1,28 @@
-import { Ok } from "@sniptt/monads";
-import { UseCase } from "~~/src/@types/usecase";
+import type {
+    FindPostQuery,
+    FindPostResult,
+    LisPostUseCaseInput,
+} from "~~/src/@types/post/list";
+import type { ListPostInput } from "../../dto/post/list.dto";
+import type { UseCase } from "~~/src/@types/usecase";
 import { PostRepository } from "~~/src/repositories/post-repositories";
+import { Ok, Result } from "@sniptt/monads";
 
-interface ListPostInput {
-    userId: string;
-    userTargetId: string | null;
-    parentId: string | null;
-}
-
-export class ListPostUseCase implements UseCase<any, any> {
+export class ListPostUseCase
+    implements UseCase<LisPostUseCaseInput, FindPostResult>
+{
     private postRespository: PostRepository;
 
     constructor() {
         this.postRespository = new PostRepository();
     }
 
-    private createQuery({ parentId, userId, userTargetId }: ListPostInput) {
+    private createQuery({
+        parentId,
+        userId,
+        userTargetId,
+    }: LisPostUseCaseInput): FindPostQuery {
+        // TODO: cerate a option where it can call all posts with a specific user id
         const query: any = {};
         if (parentId) {
             query.parentId = parentId;
@@ -26,17 +33,16 @@ export class ListPostUseCase implements UseCase<any, any> {
             query.userId = userTargetId;
             query.published = true;
         }
-        return query;
+        return { ...query, meId: userId };
     }
 
-    async execute(input: {
-        userId: string;
-        userTargetId: string | null;
-        parentId: string | null;
-    }) {
+    async execute(input: LisPostUseCaseInput) {
         const query = this.createQuery(input);
-        const postsOpt = await this.postRespository.find(query);
-        return postsOpt.match({
+        const postsOpt = await this.postRespository.find(query, {
+            skip: (input.page - 1) * 10,
+            take: 10,
+        });
+        return postsOpt.match<Result<FindPostResult, any>>({
             some: (posts) => Ok(posts),
             none: () => Ok([]),
         });

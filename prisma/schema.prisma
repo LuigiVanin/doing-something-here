@@ -20,6 +20,7 @@ model User {
 
   refreshToken RefreshToken[]
   Post         Post[]
+  reactions    Reaction[]
 }
 
 model RefreshToken {
@@ -31,17 +32,27 @@ model RefreshToken {
 }
 
 model Post {
-  id        String   @id @unique() @default(cuid())
+  id        String     @id @unique() @default(cuid())
   title     String
   body      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  published Boolean    @default(false)
   image     String
   reactions String
-  userId    String   @default("{}")
-  user      User     @relation(fields: [userId], references: [id])
+  userId    String     @default("{}")
+  user      User       @relation(fields: [userId], references: [id])
   parentId  String?
-  parent    Post?    @relation("Comments", fields: [parentId], references: [id])
-  comments  Post[]   @relation("Comments")
+  parent    Post?      @relation("Comments", fields: [parentId], references: [id])
+  comments  Post[]     @relation("Comments")
+  Reactions Reaction[]
+}
+
+model Reaction {
+  id       String @id @unique() @default(cuid())
+  reaction String // It has to be an emoji
+  postId   String
+  post     Post   @relation(fields: [postId], references: [id])
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
 }
