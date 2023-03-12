@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 
 interface PresignedUrlResponse {
     url: string;
+    uuid: string;
 }
 
 export class CreatePresignedUrlUseCase
@@ -29,7 +30,10 @@ export class CreatePresignedUrlUseCase
         );
 
         return result.match<Result<PresignedUrlResponse, WebError>>({
-            ok: (url) => Ok({ url }),
+            ok: (url) => {
+                console.log("AWS URL: ", url);
+                return Ok({ url, uuid: imageTitle });
+            },
             err: (_err) => {
                 return Err(
                     new IternalServerError(

@@ -1,52 +1,17 @@
 <template lang="">
-    <div>
-        Add photo to your galary!
-        <input
-            type="file"
-            name="avatar"
-            accept=".png, .jpg, .jpeg"
-            @change="getImage"
-        />
-        <img :src="imagePreview || ''" alt="" />
-
-        <button v-if="imagePreview" @click="upload()">Upload Image</button>
-    </div>
+    <div>Aqui ira ficar a galeria de imagens</div>
+    <NewButton width="200px" @click="onAction()">Buscar Me</NewButton>
 </template>
 <script lang="ts" setup>
-import { Ref, ref } from "vue";
-
-definePageMeta({
-    middleware: ["auth"],
-    layout: "auth-layout",
-});
+import NewButton from "../../../components/New/Button.vue";
 
 const { $client } = useNuxtApp();
-const { auth } = useAuth();
-const image = ref<any>(null);
-const imagePreview = ref(null) as Ref<string | null>;
-const presignedUrl = ref(null) as Ref<string | null>;
 
-const getImage = (event: any) => {
-    console.log(event);
-    image.value = event.target.files[0];
-    imagePreview.value = URL.createObjectURL(image.value);
-    console.log(image.value);
-};
+const getPosts = $client.gallery.list.query;
 
-const upload = async () => {
-    try {
-        const ext = image.value.name.split(".").pop();
-        const data = await $client.s3.postSignedUrl.query({
-            fileExt: ext,
-        });
-        if (!data) return;
-        const result = await fetch(data.url, {
-            method: "PUT",
-            body: image.value,
-        });
-        console.log(result);
-    } catch (error) {
-        console.log(error);
-    }
+const onAction = async () => {
+    console.log("onAction");
+    const r = await getPosts({});
+    console.log(r);
 };
 </script>

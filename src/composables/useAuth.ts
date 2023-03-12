@@ -1,5 +1,7 @@
+import { SerielizedResponse } from "../@types/token/serielized-response";
 import { SignInResponse } from "../@types/user/signin";
 import { tokenStorage } from "../helpers/localStorage-proxy";
+import { convertSerieledResposeToAuth } from "../helpers/utils/serielize";
 
 export const useAuth = () => {
     const { $client } = useNuxtApp();
@@ -25,12 +27,7 @@ export const useAuth = () => {
                 refreshToken: data.refreshToken,
             });
 
-            auth.value = {
-                createdAt: new Date(data.createdAt),
-                jwt: data.jwt,
-                refreshToken: data.refreshToken,
-                user: data.user,
-            };
+            auth.value = convertSerieledResposeToAuth(data);
         } catch {
             router.push("/");
         } finally {
@@ -38,8 +35,8 @@ export const useAuth = () => {
         }
     };
 
-    const setAuth = (data: SignInResponse) => {
-        auth.value = data;
+    const setAuth = (data: SerielizedResponse) => {
+        auth.value = convertSerieledResposeToAuth(data);
     };
 
     return { auth, getAuth, isLoading, setAuth };

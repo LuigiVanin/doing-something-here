@@ -1,20 +1,12 @@
-import { useAuth } from "../composables/useAuth";
-
-function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { tokenStorage } from "./../helpers/localStorage-proxy";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    // if (!process.server) {
-    //     await sleep(5000);
-    // }
-    // const { auth, getAuth } = useAuth();
-    // console.log(auth.value);
-    // if (!process.server) {
-    //     if (!auth.value) {
-    //         await getAuth();
-    //     }
-    // }
-    // console.log(auth.value);
-    // console.log("client");
+    const router = useRouter();
+    if (!process.server) {
+        const { accessToken, refreshToken } = tokenStorage.getItem();
+
+        if (!accessToken || !refreshToken) {
+            return router.push("/");
+        }
+    }
 });
