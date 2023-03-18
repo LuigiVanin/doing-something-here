@@ -1,25 +1,12 @@
-<template lang="">
-    <FormKit type="form" @submit="submitEvent($event)">
-        <FormKit
-            type="email"
-            label="Email"
-            name="email"
-            placeholder="nanna"
-            :validation="[['required'], ['length', 3, 150], ['email']]"
-            value="luisfvanin3@gmail.com"
-        />
-        <FormKit
-            type="password"
-            name="password"
-            label="Password"
-            validation="required"
-            validation-visibility="live"
-            value="senha123"
-        />
-        <!-- <button @click="createAccount()">signup</button> -->
-    </FormKit>
+<template>
+    <input type="email" v-model="formData.email" />
+    {{ emailError }}
+    <input type="password" v-model="formData.password" />
+    {{ passwordError }}
 </template>
 <script lang="ts" setup>
+import { z } from "zod";
+
 const { $client } = useNuxtApp();
 const router = useRouter();
 
@@ -28,8 +15,28 @@ interface SignInForm {
     password: string;
 }
 
+const formData = reactive<SignInForm>({
+    email: "",
+    password: "",
+});
 const { mutate: signIn } = $client.auth.signin;
 const { setAuth, auth } = useAuth();
+const emailError = computed(() => {
+    try {
+        z.string().email().parse(formData.email);
+        return null;
+    } catch (err) {
+        return "Email inválido";
+    }
+});
+const passwordError = computed(() => {
+    try {
+        z.string().min(6).parse(formData.password);
+        return null;
+    } catch (err) {
+        return "Senha inválida";
+    }
+});
 
 const submitEvent = async (data: SignInForm) => {
     try {
