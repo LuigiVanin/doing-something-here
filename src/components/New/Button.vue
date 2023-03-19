@@ -32,7 +32,7 @@ interface Props {
     style?: StyleValue;
     width?: string;
     size?: "sm" | "md" | "lg";
-    type?: "main" | "outlined" | "soft" | "simple" | "weak";
+    type?: "main" | "outlined" | "soft" | "simple" | "weak" | "shadow";
     hoverEffect?: `${
         | "gradient"
         | "strong"

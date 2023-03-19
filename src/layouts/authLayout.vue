@@ -11,14 +11,13 @@
 </template>
 
 <script setup lang="ts">
-const { auth, getAuth } = useAuth();
+const { getAuth, auth } = useAuth();
 
 onMounted(async () => {
     if (!auth.value) {
         await getAuth();
     }
 });
-
 setInterval(() => {
     getAuth();
 }, 1000 * 60 * 15);

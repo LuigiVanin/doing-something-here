@@ -44,4 +44,13 @@ export class TokenRepository implements Repository<RefreshToken> {
         });
         return rtOpt ? Some(rtOpt) : None;
     }
+
+    async deleteMany(where: { userId: string }) {
+        const deleteCount = await prisma.refreshToken.deleteMany({
+            where: {
+                ...where,
+            },
+        });
+        return deleteCount;
+    }
 }

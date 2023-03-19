@@ -29,6 +29,7 @@ export class AuthService {
         userId: string
     ): Promise<Result<RefreshToken, ServiceError>> {
         const token = uuid4();
+        const _ = await this.tokenRepository.deleteMany({ userId });
         const createOpt = await this.tokenRepository.create({ userId, token });
 
         return createOpt.match<Result<RefreshToken, ServiceError>>({
