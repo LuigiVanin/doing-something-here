@@ -1,27 +1,70 @@
+import { z } from "zod";
 import { ValidationError } from "./../../helpers/config/enums";
 
+// const myRules: Rules<{ name: string }> = {
+//     name: [
+//         {
+//             message: "uhu",
+//             validator: z.string(),
+//         },
+//     ],
+// };
+
 interface ZodGeneric<T> {
-    parse: () => T;
+    parse: (value: T) => T;
 }
 
-type Rule<T = string> =
-    | {
-          validator: ZodGeneric<T>;
-          message: string;
-      }
-    | {
-          validation: (value: T) => boolean;
-          message: string;
-      };
+type Rule<T = string> = {
+    validator?: ZodGeneric<T>;
+    message: string;
+} & {
+    validation?: (value: T) => boolean;
+    message: string;
+};
 
-type Rules<T> = Record<keyof T, Rule>;
+type Rules<T> = Record<keyof T, Array<Rule>>;
 
-const useValidation = <T>(input: Record<string, any>, rules: Rules<T>) => {
+const useValidation = <T>(input: Record<keyof T, any>, rules: Rules<T>) => {
     const valid = ref(false);
     const errors = ref<Record<keyof T, ValidationError>>(
         {} as Record<keyof T, ValidationError>
     );
-    // function that retiurn a Record<keyof T, string | undefined> with the error messages in each field
 
-    return { errors, valid };
+    const validate = () => {
+        valid.value = true;
+        errors.value = {} as Record<keyof T, ValidationError>;
+
+        for (const field in input) {
+            validateField(field);
+        }
+    };
+
+    const validateField = (field: keyof T) => {
+        const value = input[field];
+        const fieldRules = rules[field];
+        errors.value[field] = ValidationError.Sucess;
+
+        for (const rule of fieldRules) {
+            if (rule.validator) {
+                try {
+                    rule.validator.parse(value);
+                } catch (err) {
+                    errors.value[field] = rule.message;
+                }
+            } else {
+                if (rule.validation && !rule?.validation(value)) {
+                    errors.value[field] = rule.message;
+                }
+            }
+        }
+
+        return errors.value[field] || ValidationError.Sucess;
+    };
+
+    const fieldStatus = (field: keyof T) => {
+        if (!errors.value[field]) return ValidationError.NotError;
+        return errors.value[field];
+    };
+
+    return { errors, valid, validate, fieldStatus, validateField };
 };

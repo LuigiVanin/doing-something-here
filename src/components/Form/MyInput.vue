@@ -1,5 +1,5 @@
 <template>
-    <div class="input__wrapper">
+    <div :class="['input__wrapper', focus ? 'active' : '']">
         <input
             :value="modelValue"
             :type="props.type"
@@ -9,7 +9,11 @@
             :placeholder="props.placeholder"
             class="input__inner"
             @input="($event) => emit('update:modelValue', ($event.target as any)?.value)"
-            @blur="emit('blur')"
+            @blur="
+                emit('blur');
+                focus = false;
+            "
+            @focus="focus = true"
         />
         <span :class="['input__icon', errorStatus]">
             <slot />
@@ -31,6 +35,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits(["update:modelValue", "blur"]);
+const focus = ref(false);
 
 const errorStatus = computed(() => {
     if (props.error === ValidationError.Sucess) {
@@ -48,19 +53,24 @@ const errorStatus = computed(() => {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    border: 2px solid #2596ff;
+    border: 1px solid #2596ff;
     border-radius: 8px;
     padding-inline: 10px;
     padding-right: 5px;
     width: 100%;
+    transition: all 0.3s ease-in-out;
+
+    &.active {
+        box-shadow: 0px 0px 5px 1px #2596ff3a;
+    }
 
     input.input__inner {
         border: none;
         outline: none;
         width: 100%;
         font-weight: 400;
-        font-size: 18px;
-        line-height: 18px;
+        font-size: 17px;
+        line-height: 22px;
         height: 30px;
         flex: 1;
     }
@@ -73,7 +83,7 @@ const errorStatus = computed(() => {
         height: 35px;
         border-radius: 8px;
         color: #fff;
-        background: linear-gradient(135deg, #eeeeee 50%, #e2e2e2 100%);
+        background: linear-gradient(135deg, #e2e2e2 40%, #c2c2c2 120%);
         /* margin-inline: 10px; */
         position: relative;
 

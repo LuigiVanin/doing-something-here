@@ -24,6 +24,7 @@ specifiers:
   sass-loader: ^13.2.0
   trpc-nuxt: ^0.5.0
   uuid: ^9.0.0
+  v-drag: ^3.0.9
   vue: ^3.2.45
   zod: ^3.20.2
 
@@ -44,6 +45,7 @@ dependencies:
   prisma: 4.9.0
   trpc-nuxt: 0.5.0_2zpqbmooshoeqfe2ml35ze43ai
   uuid: 9.0.0
+  v-drag: 3.0.9
   vue: 3.2.45
   zod: 3.20.2
 
@@ -5543,6 +5545,10 @@ packages:
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
+    dev: false
+
+  /v-drag/3.0.9:
+    resolution: {integrity: sha512-R/2WfReSDPn0fbyGzsfzeLx39PMQn/wP1tnsdtc0sEGBqnKTZVB4j9hh1+qboZKZRaGQdiuml7uVMfdQKyehlg==}
     dev: false
 
   /vite-node/0.25.8_hlkwzk2izwsolfmdrejei4vrty:

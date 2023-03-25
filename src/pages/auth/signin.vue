@@ -1,8 +1,7 @@
 <template>
     <div class="signin__container">
+        <h1>ImagePoster</h1>
         <main class="signin__container__box">
-            <h1>ImagePoster</h1>
-
             <h4>Sign In</h4>
             <form @submit.prevent="submitEvent(formData)">
                 <FormMyInput
@@ -60,15 +59,16 @@
                 </section>
 
                 <!-- TODO: I need to add a shadow effect -->
-                <NewButton
-                    :disabled="!isValid"
-                    size="lg"
-                    type="main"
-                    hover-effect="shadow-effect"
-                >
+                <NewButton size="lg" type="main" hover-effect="shadow-effect">
                     Sign In
                 </NewButton>
             </form>
+            <p>
+                ainda não possui uma conta?
+                <NuxtLink to="/auth/signup">
+                    acesse a tela de cadastro</NuxtLink
+                >
+            </p>
         </main>
     </div>
 </template>
@@ -134,84 +134,69 @@ const submitEvent = async (data: SignInForm) => {
 };
 </script>
 <style lang="scss" scoped>
+@import "../../styles/mixins.scss";
+
 .signin__container {
     width: 100%;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(192, 192, 192);
+    @include flex-center(column);
 
-    background: linear-gradient(
-        116.07deg,
-        #2596ff 0.38%,
-        #7dc1ff 13.03%,
-        #e9ecff 37.36%,
-        #ead9ff 56.72%,
-        #ffb0d0 75.32%,
-        #f44262 103.09%
-    );
+    h1 {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 38px;
+        line-height: 50px;
+
+        /* identical to box height, or 98% */
+
+        color: #0085ff;
+        margin-bottom: 40px;
+    }
     /* background: url("../../assets/noisy-gradient-background.png"); */
     background-size: cover;
 
     main.signin__container__box {
         width: 100%;
-        max-width: 500px;
-        height: 100%;
+        max-width: 450px;
+        /* height: 100%; */
         max-height: 600px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: start;
-        flex-direction: column;
+        @include flex(column, flex-start, flex-start);
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
-        border: 1px solid #b8b8b8;
-        padding: 20px;
+        /* border: 1px solid #b8b8b8; */
+        padding: 25px;
         gap: 30px;
-        h1 {
-            font-style: normal;
-            font-weight: 700;
-            font-size: 38px;
-            line-height: 41px;
-
-            /* identical to box height, or 98% */
-
-            color: #0085ff;
-        }
 
         h4 {
             font-weight: 600;
-            font-size: 32px;
-            line-height: 57px;
+            font-size: 38px;
+            line-height: 50px;
 
             /* identical to box height */
             display: flex;
             align-items: flex-end;
 
-            color: #000000;
+            color: #5f5f5f;
         }
 
         form {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            @include flex-center(column);
+
             width: 100%;
-            gap: 20px;
+            gap: 25px;
 
             section.signin__remember-me {
                 padding-left: 10px;
                 width: 100%;
-                display: flex;
-                align-items: start;
-                justify-content: start;
+                @include flex(row, flex-start, center);
                 gap: 10px;
                 font-weight: 500;
-                font-size: 16px;
+                font-size: 17px;
                 line-height: 19px;
-                color: #000000;
-                margin-bottom: 20px;
+                color: #5f5f5f;
+                /* margin-bottom: 20px; */
                 span.signin__remember-me__toggle {
                     width: 20px;
                     height: 20px;
@@ -241,6 +226,18 @@ const submitEvent = async (data: SignInForm) => {
                         opacity: 1;
                     }
                 }
+            }
+        }
+
+        p {
+            text-align: center;
+            font-size: 17px;
+            line-height: 24px;
+            color: #5f5f5f;
+
+            a {
+                color: var(--main-blue-strong-light);
+                font-weight: 600;
             }
         }
     }
