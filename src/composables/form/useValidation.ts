@@ -1,14 +1,4 @@
-import { z } from "zod";
 import { ValidationError } from "./../../helpers/config/enums";
-
-// const myRules: Rules<{ name: string }> = {
-//     name: [
-//         {
-//             message: "uhu",
-//             validator: z.string(),
-//         },
-//     ],
-// };
 
 interface ZodGeneric<T> {
     parse: (value: T) => T;
@@ -24,14 +14,22 @@ type Rule<T = string> = {
 
 type Rules<T> = Record<keyof T, Array<Rule>>;
 
-const useValidation = <T>(input: Record<keyof T, any>, rules: Rules<T>) => {
-    const valid = ref(false);
-    const errors = ref<Record<keyof T, ValidationError>>(
-        {} as Record<keyof T, ValidationError>
-    );
+export const useValidation = <T>(
+    input: Record<keyof T, any>,
+    rules: Rules<T>
+) => {
+    const errors = ref({} as Record<keyof T, ValidationError>);
+
+    const valid = computed(() => {
+        for (const key in input) {
+            if (errors.value[key] !== ValidationError.Sucess) {
+                return false;
+            }
+        }
+        return true;
+    });
 
     const validate = () => {
-        valid.value = true;
         errors.value = {} as Record<keyof T, ValidationError>;
 
         for (const field in input) {
@@ -63,6 +61,8 @@ const useValidation = <T>(input: Record<keyof T, any>, rules: Rules<T>) => {
 
     const fieldStatus = (field: keyof T) => {
         if (!errors.value[field]) return ValidationError.NotError;
+        if (errors.value[field] !== ValidationError.Sucess)
+            return ValidationError.Invalid;
         return errors.value[field];
     };
 

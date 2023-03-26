@@ -164,7 +164,8 @@ button.new-button {
         line-height: 18px;
         border-radius: 10px;
     }
-    &.main {
+    &.main,
+    &.shadow {
         background: var(--main-blue-light);
         color: white;
     }
@@ -174,7 +175,13 @@ button.new-button {
         font-weight: 600;
     }
 
-    &.main {
+    &.shadow {
+        box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.151);
+        transition: all 0.2s ease-in-out;
+    }
+
+    &.main,
+    &.shadow {
         &.strong-effect:hover {
             background: var(--main-blue-strong-light);
             box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);

@@ -7,43 +7,41 @@
                 <FormMyInput
                     name="email"
                     type="email"
-                    v-model="formData.email"
                     placeholder="inira seu email..."
-                    :error="errors.email"
-                    @blur="validateEmail()"
+                    v-model="formData.email"
+                    :error="formErrors.email"
+                    @blur="validateField('email')"
                 >
                     <svg
-                        width="20"
-                        height="14"
-                        viewBox="0 0 20 14"
-                        fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="#ffffff"
+                        viewBox="0 0 256 256"
                     >
                         <path
-                            d="M2.875 1.75C2.54844 1.75 2.28125 2.0125 2.28125 2.33333V3.13906L8.68262 8.30156C9.45078 8.92135 10.5529 8.92135 11.3211 8.30156L17.7188 3.13906V2.33333C17.7188 2.0125 17.4516 1.75 17.125 1.75H2.875ZM2.28125 5.40312V11.6667C2.28125 11.9875 2.54844 12.25 2.875 12.25H17.125C17.4516 12.25 17.7188 11.9875 17.7188 11.6667V5.40312L12.4492 9.65417C11.0242 10.8026 8.97207 10.8026 7.55078 9.65417L2.28125 5.40312ZM0.5 2.33333C0.5 1.04635 1.56504 0 2.875 0H17.125C18.435 0 19.5 1.04635 19.5 2.33333V11.6667C19.5 12.9536 18.435 14 17.125 14H2.875C1.56504 14 0.5 12.9536 0.5 11.6667V2.33333Z"
-                            fill="white"
-                        />
+                            d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"
+                        ></path>
                     </svg>
                 </FormMyInput>
                 <FormMyInput
                     name="password"
                     type="senha"
-                    v-model="formData.password"
                     placeholder="inira sua senha..."
-                    :error="errors.password"
-                    @blur="validatePassword()"
+                    v-model="formData.password"
+                    :error="formErrors.password"
+                    @blur="validateField('password')"
                 >
                     <svg
-                        width="20"
-                        height="14"
-                        viewBox="0 0 20 14"
-                        fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        fill="#ffffff"
+                        viewBox="0 0 256 256"
                     >
                         <path
-                            d="M2.875 1.75C2.54844 1.75 2.28125 2.0125 2.28125 2.33333V3.13906L8.68262 8.30156C9.45078 8.92135 10.5529 8.92135 11.3211 8.30156L17.7188 3.13906V2.33333C17.7188 2.0125 17.4516 1.75 17.125 1.75H2.875ZM2.28125 5.40312V11.6667C2.28125 11.9875 2.54844 12.25 2.875 12.25H17.125C17.4516 12.25 17.7188 11.9875 17.7188 11.6667V5.40312L12.4492 9.65417C11.0242 10.8026 8.97207 10.8026 7.55078 9.65417L2.28125 5.40312ZM0.5 2.33333C0.5 1.04635 1.56504 0 2.875 0H17.125C18.435 0 19.5 1.04635 19.5 2.33333V11.6667C19.5 12.9536 18.435 14 17.125 14H2.875C1.56504 14 0.5 12.9536 0.5 11.6667V2.33333Z"
-                            fill="white"
-                        />
+                            d="M160,16A80.07,80.07,0,0,0,83.91,120.78L26.34,178.34A8,8,0,0,0,24,184v40a8,8,0,0,0,8,8H72a8,8,0,0,0,8-8V208H96a8,8,0,0,0,8-8V184h16a8,8,0,0,0,5.66-2.34l9.56-9.57A80,80,0,1,0,160,16Zm0,144a63.7,63.7,0,0,1-23.65-4.51,8,8,0,0,0-8.84,1.68L116.69,168H96a8,8,0,0,0-8,8v16H72a8,8,0,0,0-8,8v16H40V187.31l58.83-58.82a8,8,0,0,0,1.68-8.84A64,64,0,1,1,160,160Zm32-84a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"
+                        ></path>
                     </svg>
                 </FormMyInput>
 
@@ -59,25 +57,30 @@
                 </section>
 
                 <!-- TODO: I need to add a shadow effect -->
-                <NewButton size="lg" type="main" hover-effect="shadow-effect">
+                <NewButton size="lg" type="shadow" hover-effect="shadow-effect">
                     Sign In
                 </NewButton>
             </form>
             <p>
                 ainda não possui uma conta?
                 <NuxtLink to="/auth/signup">
-                    acesse a tela de cadastro</NuxtLink
-                >
+                    acesse a tela de cadastro
+                </NuxtLink>
             </p>
+            <div class="progress">
+                <span
+                    :class="['progress__bar', progress >= 100 ? 'sucess' : '']"
+                    :style="`width: ${progress}%`"
+                />
+            </div>
         </main>
     </div>
 </template>
 <script lang="ts" setup>
-import { z } from "zod";
 import { useSignin } from "~~/src/composables/api/useSignin";
+import { useValidation } from "~~/src/composables/form/useValidation";
 import { ValidationError } from "~~/src/helpers/config/enums";
-
-const { $client } = useNuxtApp();
+import { signinRules } from "~~/src/helpers/config/rules";
 
 interface SignInForm {
     email: string;
@@ -88,43 +91,33 @@ const formData = reactive<SignInForm>({
     email: "",
     password: "",
 });
-const errors = reactive<SignInForm>({
-    email: ValidationError.NotError,
-    password: ValidationError.NotError,
-});
+
+const {
+    validate,
+    errors: formErrors,
+    valid,
+    validateField,
+} = useValidation(formData, signinRules);
 
 const remeberMe = ref(false);
 
-const validateEmail = () => {
-    try {
-        z.string().email().parse(formData.email);
-        errors.email = ValidationError.Sucess;
-    } catch (err) {
-        errors.email = "Email inválido";
-    }
-};
-const validatePassword = () => {
-    try {
-        z.string().min(6).parse(formData.password);
-        errors.password = ValidationError.Sucess;
-    } catch (err) {
-        errors.password = "Senha inválida";
-    }
-};
-const isValid = computed(() => {
-    return (
-        errors.email === ValidationError.Sucess &&
-        errors.password === ValidationError.Sucess
-    );
-});
-
 const { signin, loading, error } = useSignin();
+
+const progress = computed(() => {
+    const total = Object.keys(formData).length;
+
+    const count = Object.values(formErrors.value).reduce((acc, item) => {
+        item === ValidationError.Sucess ? acc++ : acc;
+        return acc;
+    }, 0);
+
+    return (count / total) * 100;
+});
 
 const submitEvent = async (data: SignInForm) => {
     try {
-        validateEmail();
-        validatePassword();
-        if (!isValid.value) {
+        validate();
+        if (!valid.value) {
             return;
         }
         await signin(data);
@@ -140,6 +133,9 @@ const submitEvent = async (data: SignInForm) => {
     width: 100%;
     height: 100vh;
     @include flex-center(column);
+    // thats a temporary backgorund
+    background: url("../../assets/noisy-gradient-background.svg");
+    background-size: cover;
 
     h1 {
         font-style: normal;
@@ -151,9 +147,8 @@ const submitEvent = async (data: SignInForm) => {
 
         color: #0085ff;
         margin-bottom: 40px;
+        user-select: none;
     }
-    /* background: url("../../assets/noisy-gradient-background.png"); */
-    background-size: cover;
 
     main.signin__container__box {
         width: 100%;
@@ -166,6 +161,10 @@ const submitEvent = async (data: SignInForm) => {
         box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
         /* border: 1px solid #b8b8b8; */
         padding: 25px;
+        padding-bottom: 35px;
+        position: relative;
+        overflow: hidden;
+
         gap: 30px;
 
         h4 {
@@ -238,6 +237,27 @@ const submitEvent = async (data: SignInForm) => {
             a {
                 color: var(--main-blue-strong-light);
                 font-weight: 600;
+            }
+        }
+    }
+
+    .progress {
+        width: 100%;
+        background: rgb(219, 219, 219);
+        height: 8px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        .progress__bar {
+            transition: all 0.2s ease-in-out;
+            background: #fad67c;
+            height: 100%;
+            position: absolute;
+
+            &.sucess {
+                background: #42ff8d;
             }
         }
     }

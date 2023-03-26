@@ -73,6 +73,7 @@ const errorStatus = computed(() => {
         line-height: 22px;
         height: 30px;
         flex: 1;
+        background: transparent;
     }
 
     span.input__icon {
