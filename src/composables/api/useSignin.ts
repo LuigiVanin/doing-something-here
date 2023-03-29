@@ -33,7 +33,7 @@ export const useSignin = () => {
             // );
             router.push("/app");
         } catch (err) {
-            console.log({ ...err });
+            // console.log({ ...err });
             error.value = err;
         } finally {
             loading.value = false;

@@ -26,6 +26,7 @@ specifiers:
   uuid: ^9.0.0
   v-drag: ^3.0.9
   vue: ^3.2.45
+  vue-inline-svg: ^3.1.2
   zod: ^3.20.2
 
 dependencies:
@@ -47,6 +48,7 @@ dependencies:
   uuid: 9.0.0
   v-drag: 3.0.9
   vue: 3.2.45
+  vue-inline-svg: 3.1.2_vue@3.2.45
   zod: 3.20.2
 
 devDependencies:
@@ -5705,6 +5707,14 @@ packages:
   /vue-devtools-stub/0.1.0:
     resolution: {integrity: sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==}
     dev: true
+
+  /vue-inline-svg/3.1.2_vue@3.2.45:
+    resolution: {integrity: sha512-K01sLANBnjosObee4JrBu/igXpYIFhQfy4EcEyVWxEWf6nmrxp7Isz6pmeRCsWx6XGrGWfrQH3uNwt4nOmrFdA==}
+    peerDependencies:
+      vue: ^3
+    dependencies:
+      vue: 3.2.45
+    dev: false
 
   /vue-router/4.1.6_vue@3.2.45:
     resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==}

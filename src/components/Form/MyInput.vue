@@ -53,7 +53,7 @@ const errorStatus = computed(() => {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    border: 1px solid #2596ff;
+    border: 1px solid #88939e;
     border-radius: 8px;
     padding-inline: 10px;
     padding-right: 5px;
@@ -62,6 +62,7 @@ const errorStatus = computed(() => {
 
     &.active {
         box-shadow: 0px 0px 5px 1px #2596ff3a;
+        border: 1px solid #188cf8;
     }
 
     input.input__inner {

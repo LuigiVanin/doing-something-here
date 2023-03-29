@@ -1,18 +1,5 @@
+import { Rules } from "~~/src/@types/utils/rules";
 import { ValidationError } from "./../../helpers/config/enums";
-
-interface ZodGeneric<T> {
-    parse: (value: T) => T;
-}
-
-type Rule<T = string> = {
-    validator?: ZodGeneric<T>;
-    message: string;
-} & {
-    validation?: (value: T) => boolean;
-    message: string;
-};
-
-type Rules<T> = Record<keyof T, Array<Rule>>;
 
 export const useValidation = <T>(
     input: Record<keyof T, any>,

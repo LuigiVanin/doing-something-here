@@ -12,17 +12,7 @@
                     :error="formErrors.email"
                     @blur="validateField('email')"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="#ffffff"
-                        viewBox="0 0 256 256"
-                    >
-                        <path
-                            d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"
-                        ></path>
-                    </svg>
+                    <IconsEmail />
                 </FormMyInput>
                 <FormMyInput
                     name="password"
@@ -32,17 +22,7 @@
                     :error="formErrors.password"
                     @blur="validateField('password')"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="22"
-                        height="22"
-                        fill="#ffffff"
-                        viewBox="0 0 256 256"
-                    >
-                        <path
-                            d="M160,16A80.07,80.07,0,0,0,83.91,120.78L26.34,178.34A8,8,0,0,0,24,184v40a8,8,0,0,0,8,8H72a8,8,0,0,0,8-8V208H96a8,8,0,0,0,8-8V184h16a8,8,0,0,0,5.66-2.34l9.56-9.57A80,80,0,1,0,160,16Zm0,144a63.7,63.7,0,0,1-23.65-4.51,8,8,0,0,0-8.84,1.68L116.69,168H96a8,8,0,0,0-8,8v16H72a8,8,0,0,0-8,8v16H40V187.31l58.83-58.82a8,8,0,0,0,1.68-8.84A64,64,0,1,1,160,160Zm32-84a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"
-                        ></path>
-                    </svg>
+                    <IconsKey />
                 </FormMyInput>
 
                 <section class="signin__remember-me">
@@ -78,6 +58,7 @@
 </template>
 <script lang="ts" setup>
 import { useSignin } from "~~/src/composables/api/useSignin";
+import { useFormProgress } from "~~/src/composables/form/useFormProgress";
 import { useValidation } from "~~/src/composables/form/useValidation";
 import { ValidationError } from "~~/src/helpers/config/enums";
 import { signinRules } from "~~/src/helpers/config/rules";
@@ -103,16 +84,7 @@ const remeberMe = ref(false);
 
 const { signin, loading, error } = useSignin();
 
-const progress = computed(() => {
-    const total = Object.keys(formData).length;
-
-    const count = Object.values(formErrors.value).reduce((acc, item) => {
-        item === ValidationError.Sucess ? acc++ : acc;
-        return acc;
-    }, 0);
-
-    return (count / total) * 100;
-});
+const { progress } = useFormProgress(formData, formErrors);
 
 const submitEvent = async (data: SignInForm) => {
     try {
@@ -122,12 +94,14 @@ const submitEvent = async (data: SignInForm) => {
         }
         await signin(data);
     } catch (err) {
+        // TODO: add error treatment
         console.log(err);
     }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../styles/mixins.scss";
+@import "../../styles/animations.scss";
 
 .signin__container {
     width: 100%;
@@ -166,7 +140,7 @@ const submitEvent = async (data: SignInForm) => {
         overflow: hidden;
 
         gap: 30px;
-
+        @include motion(0.4s);
         h4 {
             font-weight: 600;
             font-size: 38px;
