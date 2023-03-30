@@ -2,7 +2,14 @@ import { JwtService } from "./../../services/jwt-service";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "../context";
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+    errorFormatter: (err) => {
+        return {
+            ...err.shape,
+            cause: err.error.name,
+        };
+    },
+});
 
 export const publicProcedure = t.procedure;
 export const router = t.router;

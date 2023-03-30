@@ -3,11 +3,11 @@ interface SignInForm {
     password: string;
 }
 
-export const useSignin = () => {
+export const useSignup = () => {
     const { $client } = useNuxtApp();
     const { setAuth, auth } = useAuth();
-    const loading = useState<boolean>("signinLoading", () => false);
-    const error = useState<any>("signinError", () => null);
+    const loading = useState<boolean>("signupLoading", () => false);
+    const error = useState<any>("signupError", () => null);
     const router = useRouter();
 
     const { mutate: signIn } = $client.auth.signin;
@@ -24,14 +24,7 @@ export const useSignin = () => {
                 refreshToken: result.refreshToken,
                 user: result.user,
             });
-
-            // NOTE: the "setAuth" function above does the same thing as the following lines
-            // localStorage.setItem("access-token", auth.value?.jwt || "");
-            // localStorage.setItem(
-            //     "refresh-token",
-            //     auth.value?.refreshToken || ""
-            // );
-            router.push("/app");
+            router.push("/auth/signin");
         } catch (err) {
             // console.log({ ...err });
             error.value = err;

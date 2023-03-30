@@ -69,7 +69,8 @@ import { z } from "zod";
 import { Rules } from "~~/src/@types/utils/rules";
 import { useValidation } from "~~/src/composables/form/useValidation";
 import { useFormProgress } from "~~/src/composables/form/useFormProgress";
-
+import { useSignup } from "../../composables/api/useSignup";
+import { useToast } from "vue-toastification";
 export interface SignupForm {
     name: string;
     email: string;
@@ -125,32 +126,21 @@ const { errors, valid, validateField, validate } = useValidation(
     signupForm,
     rules
 );
+const { signup, error } = useSignup();
+const toast = useToast();
 const { progress } = useFormProgress(signupForm, errors);
 
-const { $client } = useNuxtApp();
-
-const { mutate: signup } = $client.auth.signup;
-
 const submitEvent = (fields: SignupForm) => {
-    console.log(fields);
-
-    signup({
-        email: fields.email,
-        name: fields.name,
-        password: fields.password,
-        password2: fields.confirmPassword,
-    });
+    signup(fields);
 };
 
 const createAccount = async () => {
     console.log("Button pressed");
 
-    const result = await signup({
-        email: "lll@gmail.com",
-        name: "Luis Felipe Vanun",
-        password: "1234",
-        password2: "1234",
-    });
+    const result = await signup(signupForm);
+    if (error) {
+        toast.error("Algo de errado ocorreu");
+    }
 
     console.log(result);
 };

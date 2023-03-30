@@ -27,6 +27,7 @@ specifiers:
   v-drag: ^3.0.9
   vue: ^3.2.45
   vue-inline-svg: ^3.1.2
+  vue-toastification: 2.0.0-rc.5
   zod: ^3.20.2
 
 dependencies:
@@ -49,6 +50,7 @@ dependencies:
   v-drag: 3.0.9
   vue: 3.2.45
   vue-inline-svg: 3.1.2_vue@3.2.45
+  vue-toastification: 2.0.0-rc.5_vue@3.2.45
   zod: 3.20.2
 
 devDependencies:
@@ -5724,6 +5726,14 @@ packages:
       '@vue/devtools-api': 6.5.0
       vue: 3.2.45
     dev: true
+
+  /vue-toastification/2.0.0-rc.5_vue@3.2.45:
+    resolution: {integrity: sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==}
+    peerDependencies:
+      vue: ^3.0.2
+    dependencies:
+      vue: 3.2.45
+    dev: false
 
   /vue/3.2.45:
     resolution: {integrity: sha512-9Nx/Mg2b2xWlXykmCwiTUCWHbWIj53bnkizBxKai1g61f2Xit700A1ljowpTIM11e3uipOeiPcSqnmBg6gyiaA==}

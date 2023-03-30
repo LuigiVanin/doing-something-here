@@ -5,7 +5,7 @@ interface SignInForm {
     password: string;
 }
 
-export const useSignin = () => {
+export const useSignup = () => {
     const { $client } = useNuxtApp();
     // const { setAuth, auth } = useAuth();
     const loading = useState<boolean>("signinLoading", () => false);
@@ -18,7 +18,7 @@ export const useSignin = () => {
         try {
             error.value = null;
             loading.value = true;
-            const result = await signUp({
+            const _result = await signUp({
                 email: data.email,
                 password: data.password,
                 name: data.name,

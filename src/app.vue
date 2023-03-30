@@ -4,6 +4,7 @@
     </NuxtLayout>
 </template>
 <script lang="ts" setup>
+import "vue-toastification/dist/index.css";
 // import { useAuth } from "./composables/useAuth";
 
 // const { isLoading, getAuth } = useAuth();
