@@ -1,12 +1,12 @@
-import { BadRequestError } from "~~/src/errors/bad-request";
-import { WebError } from "./../../errors/base";
 import { User } from "@prisma/client";
-import { UserRepository } from "./../../repositories/user-respositories";
 import { Result, Ok, Err } from "@sniptt/monads";
-import type { UseCase } from "~~/src/@types/usecase";
-import type { ISignUp } from "../../dto/auth/signup.dto";
-import { ConflictError } from "~~/src/errors/conflict-error";
 import bcrypt from "bcrypt";
+import type { ISignUp } from "../../dto/auth/signup.dto";
+import { WebError } from "./../../errors/base";
+import { UserRepository } from "./../../repositories/user-respositories";
+import { BadRequestError } from "~~/src/errors/bad-request";
+import type { UseCase } from "~~/src/@types/usecase";
+import { ConflictError } from "~~/src/errors/conflict-error";
 
 export class SignUpUseCase implements UseCase<ISignUp, User> {
     private userRepository: UserRepository;
@@ -20,10 +20,9 @@ export class SignUpUseCase implements UseCase<ISignUp, User> {
             email: userData.email,
         });
 
-        if (userOpt.isSome())
-            return Err(
-                new ConflictError("User already exists", "user-already-exists")
-            );
+        if (userOpt.isSome()) {
+            return Err(new ConflictError("User already exists", "user-already-exists"));
+        }
 
         return (
             await this.userRepository.create({

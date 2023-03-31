@@ -1,8 +1,8 @@
 import type { User } from "@prisma/client";
-import type { Repository } from "./../@types/repository";
-import type { UserQueryOptions } from "../@types/user/user-query-options";
 import { None, Some, Option } from "@sniptt/monads";
+import type { UserQueryOptions } from "../@types/user/user-query-options";
 import prisma from "../db";
+import type { Repository } from "./../@types/repository";
 
 export class UserRepository implements Repository<User> {
     constructor() {}

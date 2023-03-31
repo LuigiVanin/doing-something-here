@@ -1,6 +1,6 @@
-import { JwtService } from "./../../services/jwt-service";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "../context";
+import { JwtService } from "./../../services/jwt-service";
 
 const t = initTRPC.context<Context>().create({
     errorFormatter: (err) => {

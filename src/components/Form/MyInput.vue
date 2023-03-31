@@ -1,10 +1,10 @@
 <template>
     <div :class="['input__wrapper', focus ? 'active' : '']">
         <input
+            :id="props.id"
             :value="modelValue"
             :type="props.type"
             :name="props.name"
-            :id="props.id"
             :class="props.class"
             :placeholder="props.placeholder"
             class="input__inner"
@@ -70,8 +70,8 @@ const errorStatus = computed(() => {
         outline: none;
         width: 100%;
         font-weight: 400;
-        font-size: 17px;
-        line-height: 22px;
+        font-size: 16px;
+        line-height: 20px;
         height: 30px;
         flex: 1;
         background: transparent;

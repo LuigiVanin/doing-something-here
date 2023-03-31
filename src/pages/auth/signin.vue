@@ -5,20 +5,20 @@
             <h4>Sign In</h4>
             <form @submit.prevent="submitEvent(formData)">
                 <FormMyInput
+                    v-model="formData.email"
                     name="email"
                     type="email"
                     placeholder="inira seu email..."
-                    v-model="formData.email"
                     :error="formErrors.email"
                     @blur="validateField('email')"
                 >
                     <IconsEmail />
                 </FormMyInput>
                 <FormMyInput
+                    v-model="formData.password"
                     name="password"
                     type="senha"
                     placeholder="inira sua senha..."
-                    v-model="formData.password"
                     :error="formErrors.password"
                     @blur="validateField('password')"
                 >
@@ -60,7 +60,6 @@
 import { useSignin } from "~~/src/composables/api/useSignin";
 import { useFormProgress } from "~~/src/composables/form/useFormProgress";
 import { useValidation } from "~~/src/composables/form/useValidation";
-import { ValidationError } from "~~/src/helpers/config/enums";
 import { signinRules } from "~~/src/helpers/config/rules";
 
 interface SignInForm {
@@ -82,8 +81,7 @@ const {
 
 const remeberMe = ref(false);
 
-const { signin, loading, error } = useSignin();
-
+const { signin } = useSignin();
 const { progress } = useFormProgress(formData, formErrors);
 
 const submitEvent = async (data: SignInForm) => {
@@ -110,6 +108,7 @@ const submitEvent = async (data: SignInForm) => {
     // thats a temporary backgorund
     background: url("../../assets/noisy-gradient-background.svg");
     background-size: cover;
+    overflow: hidden;
 
     h1 {
         font-style: normal;

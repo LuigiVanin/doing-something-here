@@ -11,7 +11,9 @@ export const usePresignedUrl = () => {
                 fileExt: ext || "",
             });
             // TODO: Tratar possiveis erros aqui ▼
-            if (!data) return;
+            if (!data) {
+                return;
+            }
             presignedUrl.value = data.url;
             uuid.value = data.uuid;
 

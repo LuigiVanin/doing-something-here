@@ -1,5 +1,5 @@
-import { Rules } from "~~/src/@types/utils/rules";
 import { ValidationError } from "./../../helpers/config/enums";
+import { Rules } from "~~/src/@types/utils/rules";
 
 export const useValidation = <T>(
     input: Record<keyof T, any>,
@@ -36,10 +36,8 @@ export const useValidation = <T>(
                 } catch (err) {
                     errors.value[field] = rule.message;
                 }
-            } else {
-                if (rule.validation && !rule?.validation(value)) {
-                    errors.value[field] = rule.message;
-                }
+            } else if (rule.validation && !rule?.validation(value)) {
+                errors.value[field] = rule.message;
             }
         }
 
@@ -47,9 +45,12 @@ export const useValidation = <T>(
     };
 
     const fieldStatus = (field: keyof T) => {
-        if (!errors.value[field]) return ValidationError.NotError;
-        if (errors.value[field] !== ValidationError.Sucess)
+        if (!errors.value[field]) {
+            return ValidationError.NotError;
+        }
+        if (errors.value[field] !== ValidationError.Sucess) {
             return ValidationError.Invalid;
+        }
         return errors.value[field];
     };
 

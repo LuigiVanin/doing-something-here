@@ -1,4 +1,3 @@
-import { TRPCError } from "@trpc/server";
 import { publicProcedure, router } from "./../trpc";
 import { resolveUseCase } from "~~/src/services/resolve";
 import { signInDto, signUpDto } from "~~/src/dto/auth";
@@ -7,8 +6,6 @@ import {
     SignUpUseCase,
     RefreshTokenUseCase,
 } from "~~/src/useCases/auth";
-import { z } from "zod";
-import { AuthService } from "~~/src/services/auth-service";
 import { refreshDto } from "~~/src/dto/auth/refresh.dto";
 
 export const authRouter = router({

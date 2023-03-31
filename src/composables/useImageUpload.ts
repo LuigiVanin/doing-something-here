@@ -10,7 +10,9 @@ export const useImageUpload = () => {
         loading.value = true;
         try {
             const result = await get(image);
-            if (!result) return;
+            if (!result) {
+                return;
+            }
             await fetch(presignedUrl.value, {
                 method: "PUT",
                 body: image,

@@ -1,8 +1,8 @@
 <template>
     <div class="column">
-        <NuxtLink to="/auth/signin">Faça Login</NuxtLink>
-        <NuxtLink to="/auth/signup">Faça Signup</NuxtLink>
-        <NuxtLink to="/app">Acess App</NuxtLink>
+        <NuxtLink to="/auth/signin"> Faça Login </NuxtLink>
+        <NuxtLink to="/auth/signup"> Faça Signup </NuxtLink>
+        <NuxtLink to="/app"> Acess App </NuxtLink>
     </div>
 </template>
 <script lang="ts" setup>

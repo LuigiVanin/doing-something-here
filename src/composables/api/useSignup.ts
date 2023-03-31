@@ -1,15 +1,23 @@
-import { SignupForm } from "~~/src/pages/auth/signup.vue";
+import { TRPCErrorShape } from "@trpc/server/rpc";
+import { StatusName } from "~~/src/@types/status-code";
+import { SignupForm } from "~~/src/@types/user/signup";
 
-interface SignInForm {
-    email: string;
-    password: string;
+interface TrpcClientError {
+    data: {
+        code: StatusName;
+        httpStatus: number;
+        path: string;
+    };
+    name: string;
+    shape: TRPCErrorShape;
 }
 
 export const useSignup = () => {
     const { $client } = useNuxtApp();
     // const { setAuth, auth } = useAuth();
-    const loading = useState<boolean>("signinLoading", () => false);
-    const error = useState<any>("signinError", () => null);
+    const loading = useState<boolean>("signupLoading", () => false);
+    const error = useState<TrpcClientError | null>("signupError", () => null);
+    const code = ref<string | null>(null);
     const router = useRouter();
 
     const { mutate: signUp } = $client.auth.signup;
@@ -25,9 +33,11 @@ export const useSignup = () => {
                 password2: data.confirmPassword,
             });
             router.push("/auth/signin");
+            return _result;
         } catch (err) {
             // console.log({ ...err });
-            error.value = err;
+            error.value = err as TrpcClientError;
+            code.value = error.value?.shape?.message || null;
         } finally {
             loading.value = false;
         }
@@ -37,5 +47,6 @@ export const useSignup = () => {
         signup,
         loading,
         error,
+        code,
     };
 };

@@ -1,8 +1,8 @@
-import { TokenQueryOptions } from "./../@types/token/token-query-options";
-import { Repository } from "./../@types/repository";
 import { RefreshToken, User } from "@prisma/client";
 import { None, Option, Some } from "@sniptt/monads/build";
 import prisma from "../db";
+import { Repository } from "./../@types/repository";
+import { TokenQueryOptions } from "./../@types/token/token-query-options";
 
 export class TokenRepository implements Repository<RefreshToken> {
     async findOne(

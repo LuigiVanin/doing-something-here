@@ -2,48 +2,54 @@
     <div class="signup__container">
         <main class="signup__container__box">
             <h4>Sign Up</h4>
-            <form @submit="createAccount()">
+            <form @submit.prevent="createAccount()">
                 <FormMyInput
-                    @blur="validateField('name')"
+                    v-model="signupForm.name"
                     name="name"
                     :error="errors.name"
                     type="name"
-                    placeholder="inira seu nome..."
-                    v-model="signupForm.name"
+                    placeholder="insira seu nome..."
+                    @blur="validateField('name')"
                 >
                     <IconsUser />
                 </FormMyInput>
                 <FormMyInput
-                    @blur="validateField('email')"
+                    v-model="signupForm.email"
                     name="email"
                     :error="errors.email"
                     type="email"
-                    placeholder="inira seu email..."
-                    v-model="signupForm.email"
+                    placeholder="insira seu email..."
+                    @blur="validateField('email')"
                 >
                     <IconsEmail />
                 </FormMyInput>
+
                 <FormMyInput
-                    @blur="validateField('password')"
+                    v-model="signupForm.password"
                     name="password"
                     :error="errors.password"
                     type="senha"
-                    placeholder="inira sua senha..."
-                    v-model="signupForm.password"
+                    placeholder="insira sua senha..."
+                    @blur="validateField('password')"
                 >
                     <IconsKey />
                 </FormMyInput>
                 <FormMyInput
-                    @blur="validateField('confirmPassword')"
+                    v-model="signupForm.confirmPassword"
                     name="confirmPassword"
                     :error="errors.confirmPassword"
                     type="senha"
-                    placeholder="inira sua senha..."
-                    v-model="signupForm.confirmPassword"
+                    placeholder="insira sua senha..."
+                    @blur="validateField('confirmPassword')"
                 >
                     <IconsKey />
                 </FormMyInput>
-                <NewButton size="lg" type="shadow" hover-effect="shadow-effect">
+                <NewButton
+                    :fw="600"
+                    size="lg"
+                    type="main"
+                    hover-effect="shadow-effect"
+                >
                     Sign Up
                 </NewButton>
 
@@ -54,7 +60,6 @@
                     </NuxtLink>
                 </p>
             </form>
-            <!-- <button @click="createAccount()">signup</button> -->
             <div class="progress">
                 <span
                     :class="['progress__bar', progress >= 100 ? 'sucess' : '']"
@@ -66,17 +71,13 @@
 </template>
 <script lang="ts" setup>
 import { z } from "zod";
-import { Rules } from "~~/src/@types/utils/rules";
+import { useToast } from "vue-toastification";
+import { useSignup } from "../../composables/api/useSignup";
+import { singUpRule as rules } from "~~/src/helpers/config/rules";
 import { useValidation } from "~~/src/composables/form/useValidation";
 import { useFormProgress } from "~~/src/composables/form/useFormProgress";
-import { useSignup } from "../../composables/api/useSignup";
-import { useToast } from "vue-toastification";
-export interface SignupForm {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
+import { SignupForm } from "~~/src/@types/user/signup";
+import { ValidationError } from "./../../helpers/config/enums";
 
 const signupForm = reactive<SignupForm>({
     name: "",
@@ -85,29 +86,8 @@ const signupForm = reactive<SignupForm>({
     confirmPassword: "",
 });
 
-const rules: Rules<SignupForm> = {
-    name: [
-        {
-            validator: z.string().min(3).max(50),
-            message: "Nome deve ter entre 3 e 50 caracteres",
-        },
-    ],
-    email: [
-        {
-            validator: z.string().email(),
-            message: "Email inválido",
-        },
-        {
-            validator: z.string().min(3).max(100),
-            message: "Email deve ter entre 3 e 50 caracteres",
-        },
-    ],
-    password: [
-        {
-            validator: z.string().min(6).max(50),
-            message: "Senha deve ter entre 6 e 50 caracteres",
-        },
-    ],
+const { errors, validateField, validate, valid } = useValidation(signupForm, {
+    ...rules,
     confirmPassword: [
         {
             validator: z.string().min(6).max(50),
@@ -120,29 +100,30 @@ const rules: Rules<SignupForm> = {
             message: "Senhas não conferem",
         },
     ],
-};
-
-const { errors, valid, validateField, validate } = useValidation(
-    signupForm,
-    rules
-);
-const { signup, error } = useSignup();
+});
+const { signup, error, code } = useSignup();
 const toast = useToast();
 const { progress } = useFormProgress(signupForm, errors);
 
-const submitEvent = (fields: SignupForm) => {
-    signup(fields);
-};
-
 const createAccount = async () => {
-    console.log("Button pressed");
-
-    const result = await signup(signupForm);
-    if (error) {
-        toast.error("Algo de errado ocorreu");
+    validate();
+    if (!valid.value) {
+        toast.error("Preencha os campos corretamente");
+        return;
     }
 
-    console.log(result);
+    await signup(signupForm);
+    if (error.value) {
+        switch (code.value) {
+            case "user-already-exists":
+                errors.value.email = "Email já cadastrado" as ValidationError;
+                toast.error("Email já cadastrado");
+                break;
+            default:
+                toast.error("Algo de errado ocorreu");
+                break;
+        }
+    }
 };
 </script>
 <style lang="scss" scoped>
@@ -153,6 +134,8 @@ const createAccount = async () => {
     width: 100%;
     height: 100vh;
     @include flex-center(column);
+    overflow: hidden;
+
     // thats a temporary backgorund
     background: url("../../assets/noisy-gradient-background.svg");
     background-size: cover;
@@ -184,6 +167,7 @@ const createAccount = async () => {
         padding-bottom: 35px;
         position: relative;
         overflow: hidden;
+        transform: scale(0.5);
 
         gap: 30px;
         @include motion(0.4s);
@@ -250,7 +234,7 @@ const createAccount = async () => {
 
         p {
             text-align: center;
-            font-size: 17px;
+            font-size: 16px;
             line-height: 24px;
             color: #5f5f5f;
 

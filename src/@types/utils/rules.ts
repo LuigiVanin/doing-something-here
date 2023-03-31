@@ -12,4 +12,4 @@ export type Rule<T = string> = {
     message: string;
 };
 
-export type Rules<T> = Record<keyof T, Array<Rule>>;
+export type Rules<T = any> = Record<keyof T, Array<Rule>>;

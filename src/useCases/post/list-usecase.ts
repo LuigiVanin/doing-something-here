@@ -1,27 +1,17 @@
-import type {
-    FindPostQuery,
-    FindPostResult,
-    LisPostUseCaseInput,
-} from "~~/src/@types/post/list";
+import { Ok, Result } from "@sniptt/monads";
 import type { ListPostInput } from "../../dto/post/list.dto";
+import type { FindPostQuery, FindPostResult, LisPostUseCaseInput } from "~~/src/@types/post/list";
 import type { UseCase } from "~~/src/@types/usecase";
 import { PostRepository } from "~~/src/repositories/post-repositories";
-import { Ok, Result } from "@sniptt/monads";
 
-export class ListPostUseCase
-    implements UseCase<LisPostUseCaseInput, FindPostResult>
-{
+export class ListPostUseCase implements UseCase<LisPostUseCaseInput, FindPostResult> {
     private postRespository: PostRepository;
 
     constructor() {
         this.postRespository = new PostRepository();
     }
 
-    private createQuery({
-        parentId,
-        userId,
-        userTargetId,
-    }: LisPostUseCaseInput): FindPostQuery {
+    private createQuery({ parentId, userId, userTargetId }: LisPostUseCaseInput): FindPostQuery {
         // TODO: cerate a option where it can call all posts with a specific user id
         const query: any = {};
         if (parentId) {
