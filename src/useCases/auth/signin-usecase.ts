@@ -1,10 +1,10 @@
-import { UnauthorizedError } from "./../../errors/unauthorized-error";
 import bcrypt from "bcrypt";
+import { Err, Ok, Result } from "@sniptt/monads/build";
+import { UnauthorizedError } from "./../../errors/unauthorized-error";
 import { UserRepository } from "./../../repositories/user-respositories";
 import { SignInResponse } from "./../../@types/user/signin";
 import { ISignIn } from "./../../dto/auth/signin.dto";
 import { UseCase } from "~~/src/@types/usecase";
-import { Err, Ok, Result } from "@sniptt/monads/build";
 import { WebError } from "~~/src/errors/base";
 import { NotFoundError } from "~~/src/errors/not-found";
 import { AuthService } from "~~/src/services/auth-service";
@@ -23,26 +23,20 @@ export class SignInUseCase implements UseCase<ISignIn, SignInResponse> {
         return await bcrypt.compare(income, current);
     }
 
-    async execute({
-        email,
-        password,
-    }: ISignIn): Promise<Result<SignInResponse, WebError>> {
+    async execute({ email, password }: ISignIn): Promise<Result<SignInResponse, WebError>> {
         const userOpt = await this.userRepository.findUnique({
             email,
         });
 
-        if (userOpt.isNone())
-            return Err(
-                new NotFoundError(
-                    "user-not-found",
-                    "There is no user with this email"
-                )
-            );
+        if (userOpt.isNone()) {
+            return Err(new NotFoundError("user-not-found", "There is no user with this email"));
+        }
         const user = userOpt.unwrap();
         const isAuhtorized = await this.passwordMatch(password, user.password);
 
-        if (!isAuhtorized)
+        if (!isAuhtorized) {
             return Err(new UnauthorizedError("invalid-password"));
+        }
 
         const signInResult = await this.authService.signUser(user);
 

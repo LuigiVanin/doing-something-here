@@ -2,7 +2,7 @@
 
 <template>
     <div class="loader">
-        <span> </span>
+        <span />
     </div>
 </template>
 

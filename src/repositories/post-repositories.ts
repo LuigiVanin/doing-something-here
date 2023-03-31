@@ -1,11 +1,10 @@
-import type { CreatePost } from "./../@types/post/create";
-import type { PostQueryOptions } from "../@types/post/post-query-options";
-import type { FindPostResult } from "../@types/post/list";
-import type { Repository } from "./../@types/repository";
 import type { Post, Prisma, User } from "@prisma/client";
-import { None, Some } from "@sniptt/monads/build";
-import { Option } from "@sniptt/monads/build";
+import { None, Some, Option } from "@sniptt/monads/build";
+import type { FindPostResult } from "../@types/post/list";
+import type { PostQueryOptions } from "../@types/post/post-query-options";
 import prisma from "../db";
+import type { Repository } from "./../@types/repository";
+import type { CreatePost } from "./../@types/post/create";
 
 export class PostRepository implements Repository<Post> {
     async create(data: CreatePost) {

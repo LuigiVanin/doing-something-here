@@ -1,0 +1,15 @@
+@mixin motion($time: 0.2ms) {
+    animation: $time cubic-bezier(0.81, 0.11, 0.29, 2) 1 normal forwards running
+        motion;
+}
+
+@keyframes motion {
+    0% {
+        opacity: 0;
+        transform: translateY(20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

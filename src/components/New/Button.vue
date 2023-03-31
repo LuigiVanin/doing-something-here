@@ -3,20 +3,28 @@
         :class="[
             attrs.class,
             'new-button',
-            size || 'md',
-            type || 'main',
-            hoverEffect || 'strong-effect',
+            props.size || 'md',
+            props.type || 'main',
+            props.hoverEffect || 'strong-effect',
         ]"
+        :style="{
+            width: props.width || '100%',
+            fontWeight: props.fw,
+            maxWidth: props.maxWidth,
+            ...props.style,
+        }"
+        :disabled="props.disabled"
         @click="rippleEffect && createRipple($event as NewPointerEvent)"
-        :style="{ width: width || '100%', fontWeight: fw }"
-        :disabled="disabled"
     >
-        <span class="button_gradient" />
-        <template v-if="rippleEffect">
+        <span
+            v-if="props.hoverEffect === 'gradient-effect'"
+            class="button_gradient"
+        />
+        <template v-if="props.rippleEffect">
             <span
-                class="button__ripple"
                 v-for="ripple in rippleQueue"
                 :key="ripple.id"
+                class="button__ripple"
                 :style="{ left: ripple.x + 'px', top: ripple.y + 'px' }"
             />
         </template>
@@ -26,13 +34,22 @@
     </button>
 </template>
 <script lang="ts" setup>
-import { StyleValue } from "vue";
+import { CSSProperties } from "vue";
+
+type Size =
+    | `${number}px`
+    | `${number}%`
+    | `${number}rem`
+    | `${number}em`
+    | `${number}vw`
+    | `${number}vh`;
 
 interface Props {
-    style?: StyleValue;
-    width?: string;
+    style?: CSSProperties;
+    width?: Size;
+    maxWidth?: Size;
     size?: "sm" | "md" | "lg";
-    type?: "main" | "outlined" | "soft" | "simple" | "weak";
+    type?: "main" | "outlined" | "soft" | "simple" | "weak" | "shadow";
     hoverEffect?: `${
         | "gradient"
         | "strong"
@@ -56,7 +73,6 @@ const rippleQueue = ref<Array<RippleData>>([]);
 
 const props = withDefaults(defineProps<Props>(), {
     width: "100%",
-    style: "",
     size: "md",
     type: "main",
     hoverEffect: "strong-effect",
@@ -147,24 +163,25 @@ button.new-button {
     &.md {
         height: 40px;
         font-weight: 400;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 16px;
         border-radius: 8px;
     }
     &.sm {
         height: 30px;
-        font-size: 13px;
+        font-size: 12px;
         line-height: 15px;
         border-radius: 7px;
     }
     &.lg {
         height: 50px;
         font-style: normal;
-        font-size: 17px;
-        line-height: 18px;
+        font-size: 16px;
+        line-height: 20px;
         border-radius: 10px;
     }
-    &.main {
+    &.main,
+    &.shadow {
         background: var(--main-blue-light);
         color: white;
     }
@@ -174,7 +191,13 @@ button.new-button {
         font-weight: 600;
     }
 
-    &.main {
+    &.shadow {
+        box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.151);
+        transition: all 0.2s ease-in-out;
+    }
+
+    &.main,
+    &.shadow {
         &.strong-effect:hover {
             background: var(--main-blue-strong-light);
             box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);

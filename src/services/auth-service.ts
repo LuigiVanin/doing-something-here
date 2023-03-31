@@ -1,11 +1,11 @@
-import { TokenRepository } from "./../repositories/token-repository";
 import { v4 as uuid4 } from "uuid";
 import { Err, Ok, Result, Some, Option, None } from "@sniptt/monads/build";
 import { RefreshToken, User } from "@prisma/client";
-import { SignInResponse } from "../@types/user/signin";
 import _ from "lodash";
-import { JwtService } from "./jwt-service";
+import { SignInResponse } from "../@types/user/signin";
 import { ServiceError } from "../@types/error";
+import { JwtService } from "./jwt-service";
+import { TokenRepository } from "./../repositories/token-repository";
 
 export class AuthService {
     private tokenRepository: TokenRepository;
@@ -16,19 +16,13 @@ export class AuthService {
         this.jwtService = new JwtService();
     }
 
-    private async getRefreshToken(
-        data: { userId: string } | { token: string }
-    ) {
-        return await this.tokenRepository.findOneWithUser(
-            { ...data },
-            { orderBy: { createdAt: "desc" } }
-        );
+    private async getRefreshToken(data: { userId: string } | { token: string }) {
+        return await this.tokenRepository.findOneWithUser({ ...data }, { orderBy: { createdAt: "desc" } });
     }
 
-    private async createRefreshToken(
-        userId: string
-    ): Promise<Result<RefreshToken, ServiceError>> {
+    private async createRefreshToken(userId: string): Promise<Result<RefreshToken, ServiceError>> {
         const token = uuid4();
+        const _ = await this.tokenRepository.deleteMany({ userId });
         const createOpt = await this.tokenRepository.create({ userId, token });
 
         return createOpt.match<Result<RefreshToken, ServiceError>>({
@@ -48,10 +42,7 @@ export class AuthService {
         return diff > 1000 * 60 * 60 * 24 * 7;
     }
 
-    async authorizeUser(
-        refreshToken: string,
-        jwtToken: string
-    ): Promise<Result<SignInResponse, ServiceError>> {
+    async authorizeUser(refreshToken: string, jwtToken: string): Promise<Result<SignInResponse, ServiceError>> {
         const rtOpt = await this.getRefreshToken({ token: refreshToken });
 
         if (rtOpt.isNone()) {

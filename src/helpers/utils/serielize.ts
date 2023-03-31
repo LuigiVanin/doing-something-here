@@ -1,9 +1,7 @@
 import { User } from "@prisma/client";
 import { SerielizedResponse } from "./../../@types/token/serielized-response";
 
-export const convertSerializedUser = (
-    data: SerielizedResponse
-): Omit<User, "password"> => {
+export const convertSerializedUser = (data: SerielizedResponse): Omit<User, "password"> => {
     data.user.createdAt;
     return {
         id: data.user.id,

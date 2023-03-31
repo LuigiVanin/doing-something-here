@@ -4,7 +4,6 @@ import type { AppRouter } from "../server/api/trpc/[trpc]";
 
 export default defineNuxtPlugin(() => {
     const headers = useRequestHeaders();
-    // const { auth } = useAuth();
 
     const client = createTRPCNuxtClient<AppRouter>({
         links: [

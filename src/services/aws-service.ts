@@ -13,15 +13,9 @@ export class AwsService {
         this.client = S3Client.Instance;
     }
 
-    public async createPresignedUrl(
-        fileName: string,
-        fileExtension: string
-    ): Promise<Result<string, ServiceError>> {
+    public async createPresignedUrl(fileName: string, fileExtension: string): Promise<Result<string, ServiceError>> {
         try {
-            const url = await this.client.createPresignedUrl(
-                fileName,
-                fileExtension
-            );
+            const url = await this.client.createPresignedUrl(fileName, fileExtension);
             return Ok(url);
         } catch (err) {
             return Err({

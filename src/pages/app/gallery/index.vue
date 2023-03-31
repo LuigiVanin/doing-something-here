@@ -1,6 +1,6 @@
 <template lang="">
     <div>Aqui ira ficar a galeria de imagens</div>
-    <NewButton width="200px" @click="onAction()">Buscar Me</NewButton>
+    <NewButton width="200px" @click="onAction()"> Buscar Me </NewButton>
 </template>
 <script lang="ts" setup>
 import NewButton from "../../../components/New/Button.vue";

@@ -6,4 +6,5 @@ export default defineNuxtConfig({
     ssr: true,
     srcDir: "src/",
     modules: ["@formkit/nuxt"],
+    // plugins: ["~/plugins/inline-svg.ts"],
 });

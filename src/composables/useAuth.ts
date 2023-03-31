@@ -37,6 +37,10 @@ export const useAuth = () => {
 
     const setAuth = (data: SerielizedResponse) => {
         auth.value = convertSerieledResposeToAuth(data);
+        tokenStorage.setItem({
+            accessToken: data.jwt,
+            refreshToken: data.refreshToken,
+        });
     };
 
     return { auth, getAuth, isLoading, setAuth };
