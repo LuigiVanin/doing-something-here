@@ -1,8 +1,12 @@
 # ImagePoster
 
-> ⠀
-> 🚧🚧 O projeto está atualmente **On Hold** 🚧🚧
-> ⠀
+<br />
+
+>!
+> 🚧🚧 O projeto está atualmente **ON HOLD** 🚧🚧
+>!
+
+<br />
 
 ImagePoster um website de armazenamento e compartilhamento de imagens. No app é possível criar posts que serão salvos na sua galeria e podem ser compartilhados ao tornar a postagem pública, quando uma postagem é pública, ela pode aparecer no feed de qualquer usuário.
 
