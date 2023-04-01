@@ -1,4 +1,3 @@
-// TODO: Aqui ficara a logica relacionada a input de imagens aka: criação de url local e estado de iamge serializada
 export const useImageInput = () => {
     const imageFile = ref<null | File>(null);
     const imageUrlPreview = ref<string | null>(null);

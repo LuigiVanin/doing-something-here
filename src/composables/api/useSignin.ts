@@ -5,7 +5,7 @@ interface SignInForm {
 
 export const useSignin = () => {
     const { $client } = useNuxtApp();
-    const { setAuth, auth } = useAuth();
+    const { setAuth } = useAuth();
     const loading = useState<boolean>("signinLoading", () => false);
     const error = useState<any>("signinError", () => null);
     const router = useRouter();
