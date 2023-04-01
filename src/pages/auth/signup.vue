@@ -23,6 +23,8 @@
                 >
                     <IconsEmail />
                 </FormMyInput>
+                <!-- TODO: Add image upload -->
+                <!-- <FormMyImageInput @change:file-upload="avatarData = $event" /> -->
 
                 <FormMyInput
                     v-model="signupForm.password"
@@ -85,6 +87,9 @@ const signupForm = reactive<SignupForm>({
     password: "",
     confirmPassword: "",
 });
+// Criar um endpoitn para editar usuario, para que seja possivel editar o avatar
+// apos o login do user
+// const avatarData = ref<File | null>(null);
 
 const { errors, validateField, validate, valid } = useValidation(signupForm, {
     ...rules,
@@ -104,6 +109,7 @@ const { errors, validateField, validate, valid } = useValidation(signupForm, {
 const { signup, error, code } = useSignup();
 const toast = useToast();
 const { progress } = useFormProgress(signupForm, errors);
+// const { upload, url } = useImageUpload();
 
 const createAccount = async () => {
     validate();
@@ -112,7 +118,10 @@ const createAccount = async () => {
         return;
     }
 
-    await signup(signupForm);
+    const _credentials = await signup({ ...signupForm });
+    // if (avatarData.value) {
+    //     await upload(avatarData.value);
+    // }
     if (error.value) {
         switch (code.value) {
             case "user-already-exists":
@@ -162,6 +171,7 @@ const createAccount = async () => {
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 0px 10px 1px #a3a3a33a;
         /* border: 1px solid #b8b8b8; */
         padding: 25px;
         padding-bottom: 35px;
@@ -188,7 +198,7 @@ const createAccount = async () => {
             @include flex-center(column);
 
             width: 100%;
-            gap: 25px;
+            gap: 15px;
 
             section.signin__remember-me {
                 padding-left: 10px;

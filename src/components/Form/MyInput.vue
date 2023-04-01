@@ -75,6 +75,11 @@ const errorStatus = computed(() => {
         height: 30px;
         flex: 1;
         background: transparent;
+        &::placeholder {
+            color: gray;
+            opacity: 1; /* Firefox */
+            font-family: "Poppins", sans-serif;
+        }
     }
 
     span.input__icon {

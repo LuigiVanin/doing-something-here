@@ -1,5 +1,3 @@
-import { TokensStorage } from "./token/tokens";
-
 type Nullable<T> = { [P in keyof T]: T[P] | null };
 
 export interface StorageProxy<T> {

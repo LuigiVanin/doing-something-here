@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Err, Ok, Result } from "@sniptt/monads/build";
 import { UnauthorizedError } from "./../../errors/unauthorized-error";
-import { UserRepository } from "./../../repositories/user-respositories";
+import { UserRepository } from "./../../repositories";
 import { SignInResponse } from "./../../@types/user/signin";
 import { ISignIn } from "./../../dto/auth/signin.dto";
 import { UseCase } from "~~/src/@types/usecase";
@@ -23,13 +23,21 @@ export class SignInUseCase implements UseCase<ISignIn, SignInResponse> {
         return await bcrypt.compare(income, current);
     }
 
-    async execute({ email, password }: ISignIn): Promise<Result<SignInResponse, WebError>> {
+    async execute({
+        email,
+        password,
+    }: ISignIn): Promise<Result<SignInResponse, WebError>> {
         const userOpt = await this.userRepository.findUnique({
             email,
         });
 
         if (userOpt.isNone()) {
-            return Err(new NotFoundError("user-not-found", "There is no user with this email"));
+            return Err(
+                new NotFoundError(
+                    "user-not-found",
+                    "There is no user with this email"
+                )
+            );
         }
         const user = userOpt.unwrap();
         const isAuhtorized = await this.passwordMatch(password, user.password);

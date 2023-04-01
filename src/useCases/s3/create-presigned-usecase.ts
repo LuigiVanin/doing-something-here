@@ -5,11 +5,7 @@ import { UseCase } from "~~/src/@types/usecase";
 import { WebError } from "~~/src/errors/base";
 import { IternalServerError } from "~~/src/errors";
 import { AwsService } from "~~/src/services/aws-service";
-
-interface PresignedUrlResponse {
-    url: string;
-    uuid: string;
-}
+import { PresignedUrlResponse } from "~~/src/@types/post/presgn-url";
 
 export class CreatePresignedUrlUseCase
     implements UseCase<PresignedUrlInput, PresignedUrlResponse>

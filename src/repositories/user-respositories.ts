@@ -7,7 +7,9 @@ import type { Repository } from "./../@types/repository";
 export class UserRepository implements Repository<User> {
     constructor() {}
 
-    async create(data: Omit<User, "id">): Promise<Option<User>> {
+    async create(
+        data: Omit<User, "id" | "createdAt" | "updatedAt">
+    ): Promise<Option<User>> {
         const user = await prisma.user.create({
             data: {
                 ...data,

@@ -1,7 +1,10 @@
 import { Ref, UnwrapRef } from "vue";
 import { ValidationError } from "./../../helpers/config/enums";
 
-export const useFormProgress = (formData: UnwrapRef<Record<string, any>>, formErrors: Ref<Record<string, any>>) => {
+export const useFormProgress = (
+    formData: UnwrapRef<Record<string, any>>,
+    formErrors: Ref<Record<string, any>>
+) => {
     const progress = computed(() => {
         const total = Object.keys(formData).length;
 

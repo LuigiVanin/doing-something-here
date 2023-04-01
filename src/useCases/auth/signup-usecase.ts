@@ -3,11 +3,12 @@ import { Result, Ok, Err } from "@sniptt/monads";
 import bcrypt from "bcrypt";
 import type { ISignUp } from "../../dto/auth/signup.dto";
 import { WebError } from "./../../errors/base";
-import { UserRepository } from "./../../repositories/user-respositories";
+import { UserRepository } from "./../../repositories";
 import { BadRequestError } from "~~/src/errors/bad-request";
 import type { UseCase } from "~~/src/@types/usecase";
 import { ConflictError } from "~~/src/errors/conflict-error";
 
+// TODO: Fazer com que o signup-usecase retorne as credenciais do usuário (jwt e refresh token)
 export class SignUpUseCase implements UseCase<ISignUp, User> {
     private userRepository: UserRepository;
 
@@ -21,7 +22,9 @@ export class SignUpUseCase implements UseCase<ISignUp, User> {
         });
 
         if (userOpt.isSome()) {
-            return Err(new ConflictError("User already exists", "user-already-exists"));
+            return Err(
+                new ConflictError("User already exists", "user-already-exists")
+            );
         }
 
         return (
@@ -29,6 +32,7 @@ export class SignUpUseCase implements UseCase<ISignUp, User> {
                 email: userData.email,
                 name: userData.name,
                 password: await bcrypt.hash(userData.password, 10),
+                avatar: null,
             })
         ).match<Result<User, WebError>>({
             some: (val) => Ok(val),
